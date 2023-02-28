@@ -1,0 +1,9 @@
+executable = linking.sh
+arguments = $(ClusterID) $(ProcId)
+output = output/linking.$(ClusterId).$(ProcId).out
+error = error/linking.$(ClusterId).$(ProcId).err
+log = log/linking.$(ClusterId).log
+request_memory = 128GB
++JobFlavour = "workday"
+notification = Never
+queue 1

@@ -1,0 +1,12 @@
+fedra.align.OffsetMax:                   4000
+fedra.align.DZ:                          0
+fedra.align.DPHI:                        0.05
+fedra.align.SigmaR:                      80
+fedra.align.SigmaT:                      0.04
+fedra.align.DoFine:                      1
+fedra.readCPcut:                         eCHI2P<2.0&&s.eW>10&&eN1==1&&eN2==1&&s.Theta()>0.09&&s.Theta()<0.1&&TMath::Abs(s.eX-96000)<10000 && TMath::Abs(s.eY-96000) < 10000
+fedra.align.SaveCouples:                 1
+emalign.outdir:                          ..
+emalign.env:                             align.rootrc
+emalign.reportfileformat:		 ps
+emalign.EdbDebugLevel:                   1

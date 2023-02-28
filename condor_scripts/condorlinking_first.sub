@@ -1,0 +1,8 @@
+executable = condorlinking_first.sh
+arguments = $(ClusterID) $(ProcId) $(CELL)
+output = output/firstlinkingcells.$(ClusterId).$(ProcId).out
+error = error/fistlinkingcells.$(ClusterId).$(ProcId).err
+log = log/linkingcells.$(ClusterId).log
++JobFlavour = "microcentury"
+notification = Never
+queue CELL from seq 1 360 |

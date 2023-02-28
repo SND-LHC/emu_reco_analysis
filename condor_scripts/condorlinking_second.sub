@@ -1,0 +1,8 @@
+executable = condorlinking_second.sh
+arguments = $(ClusterID) $(ProcId) $(CELL)
+output = output/secondlinkingcells.$(ClusterId).$(ProcId).out
+error = error/secondlinkingcells.$(ClusterId).$(ProcId).err
+log = log/secondlinkingcells.$(ClusterId).log
++JobFlavour = "microcentury"
+notification = Never
+queue CELL from seq 1 360 |

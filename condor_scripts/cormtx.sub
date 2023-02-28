@@ -1,0 +1,9 @@
+executable = cormtx.sh
+arguments = $(ClusterID) $(ProcId)
+output = output/cormtx.$(ClusterId).$(ProcId).out
+error = error/cormtx.$(ClusterId).$(ProcId).err
+log = log/cormtx.$(ClusterId).log
+request_memory = 20GB
++JobFlavour = "workday"
+notification = Never
+queue 1

@@ -1,0 +1,11 @@
+executable = linkingcells.sh
+arguments = $(ClusterID) $(ProcId)
+output = output/linkingcells.$(ClusterId).$(ProcId).out
+error = error/linkingcells.$(ClusterId).$(ProcId).err
+log = log/linkingcells.$(ClusterId).log
++JobFlavour = "workday"
+notification = Never
+on_exit_remove          = (ExitBySignal == False) && ((ExitCode == 1) || (ExitCode == 0))
+max_retries             = 3
+requirements = Machine =!= LastRemoteHost
+queue 361
