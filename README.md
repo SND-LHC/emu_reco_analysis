@@ -2,6 +2,8 @@
 
 Using FEDRA ROOT C++ libraries
 
+#https://twiki.cern.ch/twiki/bin/view/SndLHC/EmuReco
+
 The Folder are organized as follows:
 
 * run0analysis, run1analysis: collection of codes dedicated to this particular set of studies, included the used scanning, analysis parameters;
