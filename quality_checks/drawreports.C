@@ -3,8 +3,8 @@
 //plots with subfolders: thicknesses, link_reports, al_reports
 //TString: class which allows path concatenation. Access the char* object with Data()
 const int brick = 24; //3 with large angles
-const int firstplate = 50;
-const int lastplate = 50;
+const int firstplate = 7;
+const int lastplate = 7;
 
 TString path = TString("/home/scanner/sndlhc/RUN1");
 
@@ -34,6 +34,7 @@ void couplesweight(){
 
 void couplesecography(){
     //check for quality of couples for alignment, as suggested by Dario
+    TCanvas *c = new TCanvas("c","cxy couples quality",800,800);
     for (int iplate = firstplate; iplate <= lastplate; iplate++){
         
         TFile *inputfile;
@@ -41,11 +42,11 @@ void couplesecography(){
         
         inputfile = TFile::Open(Form((path+"/b%06i/p%03d/%i.%i.0.0.cp.root").Data(),brick,iplate,brick,iplate));
         
+        
         if(inputfile){
             if (inputfile->Get("couples")){
                 couples = (TTree*) inputfile->Get("couples");
                 
-                TCanvas *c = new TCanvas();
                 couples->Draw("s.eY:s.eX","eCHI2P<2.0&&s.eW>10&&eN1==1&&eN2==1");
                 c->Print(Form((path+"/b%06i/plots/goodcouples/goodcp_p%i.png").Data(),brick,iplate),"png");
 
