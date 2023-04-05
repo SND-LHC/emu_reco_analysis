@@ -9,7 +9,7 @@ if [[ $# -eq 0 ]] ; then
     return 0
 fi
 
-brickID=21
+brickID=44
 
 
 #finally doing cell by cell linking
@@ -18,11 +18,26 @@ var1=$3
 xbin=$((var1 / 19))
 ybin=$((var1 % 19))
 
+for iplate in $(seq $2 $1)
+ do
+  if [ $iplate -le 9 ]
+   then
+   cp -dv p00$iplate/$brickID.$iplate.0.0.raw.root p00$iplate/$brickID.$iplate.$xbin.$ybin.raw.root
+
+  elif [ $iplate -le 99 ]
+   then
+   cp -dv p0$iplate/$brickID.$iplate.0.0.raw.root p0$iplate/$brickID.$iplate.$xbin.$ybin.raw.root
+
+  else
+   cp -dv p$iplate/$brickID.$iplate.0.0.raw.root p$iplate/$brickID.$iplate.$xbin.$ybin.raw.root
+  fi
+ done 
+
 echo "Starting true linking"
 
 makescanset -set=$brickID.0.$xbin.$ybin -dzbase=195 -from_plate=$1 -to_plate=$2 -v=2
 
-cp secondlink.rootrc link.rootrc
+#cp secondlink.rootrc link.rootrc
 emlink -set=$brickID.0.$xbin.$ybin -new -v=2 -ix=$xbin -iy=$ybin
 
 #rm temporary files, not needed anymore
@@ -31,7 +46,7 @@ for iplate in $(seq $2 $1)
  do
   if [ $iplate -le 9 ]
    then
-   rm p0$iplate/$brickID.$iplate.$xbin.$ybin.raw.root
+   rm p00$iplate/$brickID.$iplate.$xbin.$ybin.raw.root
    #rm p0$iplate/$brickID.$iplate.$xbin.$ybin.par
   elif [ $iplate -le 99 ]
    then
@@ -43,5 +58,5 @@ for iplate in $(seq $2 $1)
   fi
  done
 
+cp b0000$brickID.0.$xbin.$ybin.link.ps plot_link/b0000$brickID.0.$xbin.$ybin.link_$1_$2.ps
 rm b0000$brickID.0.$xbin.$ybin.link.ps
-#cp b000331.0.$xbin.$ybin.link.ps plot_link/b000331.0.0.0.link_$1_$2.ps

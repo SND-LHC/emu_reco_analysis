@@ -9,7 +9,7 @@ if [[ $# -eq 0 ]] ; then
     return 0
 fi
 
-brickID=21
+brickID=44
 
 #finally doing cell by cell linking
 
@@ -23,7 +23,7 @@ for iplate in $(seq $2 $1)
  do
   if [ $iplate -le 9 ]
    then
-   cp -dv p$iplate/$brickID.$iplate.0.0.raw.root p$iplate/$brickID.$iplate.$xbin.$ybin.raw.root
+   cp -dv p00$iplate/$brickID.$iplate.0.0.raw.root p00$iplate/$brickID.$iplate.$xbin.$ybin.raw.root
 
   elif [ $iplate -le 99 ]
    then
@@ -39,10 +39,10 @@ echo "Starting pre-linking"
 
 makescanset -set=$brickID.0.$xbin.$ybin -dzbase=195 -from_plate=$1 -to_plate=$2 -v=2
 
-cp firstlink.rootrc link.rootrc
+#cp firstlink.rootrc link.rootrc
 emlink -set=$brickID.0.$xbin.$ybin -new -v=2 -ix=$xbin -iy=$ybin
 
-#cp b000331.0.$xbin.$ybin.link.ps plot_prelink/b000331.0.0.0.prelink_$1_$2.ps
+cp b0000$brickID.0.$xbin.$ybin.link.ps plot_prelink/b0000$brickID.0.$xbin.$ybin.prelink_$1_$2.ps
 
 #copying cp.root from first linking, to check shrinkage distributions later on
 for iplate in $(seq $2 $1)
@@ -51,12 +51,15 @@ for iplate in $(seq $2 $1)
   if [ $iplate -le 9 ]
    then
    cp p00$iplate/$brickID.$iplate.$xbin.$ybin.cp.root p00$iplate/$brickID.$iplate.$xbin.$ybin.firstlinkcp.root
+   rm p00$iplate/$brickID.$iplate.$xbin.$ybin.cp.root
 
   elif [ $iplate -le 99 ]
    then 
    cp p0$iplate/$brickID.$iplate.$xbin.$ybin.cp.root p0$iplate/$brickID.$iplate.$xbin.$ybin.firstlinkcp.root
+   rm p0$iplate/$brickID.$iplate.$xbin.$ybin.cp.root
 
   else
    cp p$iplate/$brickID.$iplate.$xbin.$ybin.cp.root p$iplate/$brickID.$iplate.$xbin.$ybin.firstlinkcp.root
+   rm p$iplate/$brickID.$iplate.$xbin.$ybin.cp.root
   fi
  done
