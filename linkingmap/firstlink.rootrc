@@ -7,13 +7,13 @@ fedra.link.DoCorrectShrinkage:           1
 fedra.link.read.InvertSides:             0
 fedra.link.read.HeaderCut:               1
 fedra.link.read.UseDensityAsW:           0
-fedra.link.read.ICUT:                    -1     -500. 500.   -500.   500.    -1.6   1.6      -1.6   1.6       0.  100.
+fedra.link.read.ICUT:                    -1     -500. 500.   -500.   500.    -1.0   1.0      -1.0   1.0       0.  100.
 fedra.link.RemoveDoublets:               1    5. .1   1
 fedra.link.DumpDoubletsTree:             0
 fedra.link.shr.NsigmaEQ:                 7.5
 fedra.link.shr.Shr0:                     0.7
 fedra.link.shr.DShr:                     0.5
-fedra.link.shr.ThetaLimits:              0.05  1.6
+fedra.link.shr.ThetaLimits:              0.05  1.
 fedra.link.DoCorrectAngles:              1
 fedra.link.ang.Chi2max:                  1.5
 fedra.link.DoFullLinking:                1
