@@ -96,10 +96,10 @@ void draw_diff6()
   Views->SetLineColor(kBlue); Views->Draw("eZ4","","same");
   Views->SetLineColor(kBlack);
   */
-  c->cd(1)->SetGrid();
-  Views->Draw( Form("eNsegments:eYview:eXview>>hxytop(%d,%f,%f,%d,%f,%f)",hxy.xb,hxy.xmin,hxy.xmax,hxy.yb,hxy.ymin,hxy.ymax),"eNframesTop==0","prof colz");
   c->cd(2)->SetGrid();
-  Views->Draw( Form("eNsegments:eYview:eXview>>hxybot(%d,%f,%f,%d,%f,%f)",hxy.xb,hxy.xmin,hxy.xmax,hxy.yb,hxy.ymin,hxy.ymax),"eNframesTop!=0","prof colz");
+  Views->Draw( Form("eNsegments:eYview:eXview>>hxybot(%d,%f,%f,%d,%f,%f)",hxy.xb,hxy.xmin,hxy.xmax,hxy.yb,hxy.ymin,hxy.ymax),"eNframesTop==0","prof colz");
+  c->cd(1)->SetGrid();
+  Views->Draw( Form("eNsegments:eYview:eXview>>hxytop(%d,%f,%f,%d,%f,%f)",hxy.xb,hxy.xmin,hxy.xmax,hxy.yb,hxy.ymin,hxy.ymax),"eNframesTop!=0","prof colz");
  
 }
 
