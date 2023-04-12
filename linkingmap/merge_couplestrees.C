@@ -5,15 +5,15 @@ TFile * outputfile;
 
 int couples_loop(TString cpfilename, int ix, int iy);
 
-void merge_couplestrees(){
+void merge_couplestrees(int platenumber){
  //histo file
- outputfile = new TFile("44.2.0.0.cp.root","RECREATE"); 
+ outputfile = new TFile(Form("/eos/experiment/sndlhc/emulsionData/2022/CERN/emu_reco/RUN1/b000044/p00%i/44.%i.0.0_merged.cp.root",platenumber, platenumber),"RECREATE"); 
  //histograms to be stored
  TTimeStamp *tstamp = new TTimeStamp();
 
  selectedcoupleslist = new TList();
 
- const int platenumber = 2;
+ //const int platenumber = 2; //now as input option of the script
  //same parameters used as input for linking map!
  const int nx = 19;
  const int ny = 19;
@@ -56,7 +56,7 @@ int couples_loop(TString cpfilename, int ix, int iy){
  outputfile->cd();
  if (mytree->eTree->GetEntries()==0) return -1;
 
- TTree *outputtree = mytree->eTree->CopyTree(Form("TMath::Abs(s.eX-%.0f)<%.0f&&TMath::Abs(s.eY-%.0f)<%.0f"
+ TTree *outputtree = mytree->eTree->CopyTree(Form("eN1<=1&&eN2<=1&&s1.eFlag>=0&&s2.eFlag>=0&&TMath::Abs(s.eX-%.0f)<%.0f&&TMath::Abs(s.eY-%.0f)<%.0f"
   ,emulsioncell->X(ix),emulsioncell->Xbin()/2.,emulsioncell->Y(iy),emulsioncell->Ybin()/2.)); //removing cell overlap
 
  selectedcoupleslist->Add(outputtree);
