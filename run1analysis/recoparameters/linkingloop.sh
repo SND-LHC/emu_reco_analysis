@@ -9,23 +9,8 @@ if [[ $# -eq 0 ]] ; then
     return 0
 fi
 
-if [[ $3 -le 9 ]] 
-then
-
-   brickID=0$3
-   workdir=b00000$3
-elif  [ $3 -gt 9 ] && [ $3 -le 99 ] 
-then
-
-   brickID=$3
-   workdir=b0000$3
-elif [[ $3 -gt 99 ]] 
-then
-
-   brickID=$3
-   workdir=b000$3
-
-fi
+workdir="$(printf "b%0*d\n" 6 $3)"
+echo "trying to enter $workdir"
 
 if [ ! -d "$workdir" ]
 then 
@@ -46,6 +31,12 @@ makescanset -set=$brickID.0.0.0 -dzbase=195 -from_plate=$1 -to_plate=$2 -v=2
 
 emlink -set=$brickID.0.0.0 -new -v=2
 
+if [ ! -d "./plot_prelink" ]
+then 
+   echo "The plot prelink directory does not exist! Creating it."
+   mkdir ./plot_prelink
+fi
+
 cp $workdir.0.0.0.link.ps plot_prelink/$workdir.0.0.0.prelink_$1_$2.ps
 
 
@@ -55,17 +46,17 @@ for iplate in $(eval echo {$1..$2})
 
   if [ $iplate -le 9 ]
    then
-   cp p00$iplate/$brickID.$iplate.0.0.cp.root p00$iplate/$brickID.$iplate.0.0.firstlinkcp.root
-   echo "written p00$iplate/$brickID.$iplate.0.0.cp.root p00$iplate/$brickID.$iplate.0.0.firstlinkcp.root"
+   cp p00$iplate/$brickID.$iplate.0.0.cp.root p00$iplate/$3.$iplate.0.0.firstlinkcp.root
+   echo "written p00$iplate/$brickID.$iplate.0.0.cp.root p00$iplate/$3.$iplate.0.0.firstlinkcp.root"
 
   elif [ $iplate -le 99 ]
    then 
-   cp p0$iplate/$brickID.$iplate.0.0.cp.root p0$iplate/$brickID.$iplate.0.0.firstlinkcp.root
-   echo " written p0$iplate/$brickID.$iplate.0.0.cp.root p0$iplate/$brickID.$iplate.0.0.firstlinkcp.root "
+   cp p0$iplate/$brickID.$iplate.0.0.cp.root p0$iplate/$3.$iplate.0.0.firstlinkcp.root
+   echo " written p0$iplate/$brickID.$iplate.0.0.cp.root p0$iplate/$3.$iplate.0.0.firstlinkcp.root "
 
   else
-   cp p$iplate/$brickID.$iplate.0.0.cp.root p$iplate/$brickID.$iplate.0.0.firstlinkcp.root
-   echo " written p$iplate/$brickID.$iplate.0.0.cp.root p$iplate/$brickID.$iplate.0.0.firstlinkcp.root "
+   cp p$iplate/$brickID.$iplate.0.0.cp.root p$iplate/$3.$iplate.0.0.firstlinkcp.root
+   echo " written p$iplate/$brickID.$iplate.0.0.cp.root p$iplate/$3.$iplate.0.0.firstlinkcp.root "
   fi
  done
 
@@ -76,5 +67,11 @@ cp secondlink.rootrc link.rootrc
 makescanset -set=$brickID.0.0.0 -dzbase=195 -from_plate=$1 -to_plate=$2 -v=2
 
 emlink -set=$brickID.0.0.0 -new -v=2
+
+if [ ! -d "./plot_link" ]
+then 
+   echo "The plot link directory does not exist! Creating it."
+   mkdir ./plot_link
+fi
 
 cp $workdir.0.0.0.link.ps plot_link/$workdir.0.0.0.link_$1_$2.ps
