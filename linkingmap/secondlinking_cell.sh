@@ -18,45 +18,24 @@ var1=$3
 xbin=$((var1 / 19))
 ybin=$((var1 % 19))
 
-for iplate in $(seq $2 $1)
- do
-  if [ $iplate -le 9 ]
-   then
-   cp -dv p00$iplate/$brickID.$iplate.0.0.raw.root p00$iplate/$brickID.$iplate.$xbin.$ybin.raw.root
-
-  elif [ $iplate -le 99 ]
-   then
-   cp -dv p0$iplate/$brickID.$iplate.0.0.raw.root p0$iplate/$brickID.$iplate.$xbin.$ybin.raw.root
-
-  else
-   cp -dv p$iplate/$brickID.$iplate.0.0.raw.root p$iplate/$brickID.$iplate.$xbin.$ybin.raw.root
-  fi
- done 
+#starting from 1 to 19, not 0 to 18
+xname=$((xbin + 1))
+yname=$((ybin + 1))
 
 echo "Starting true linking"
 
-makescanset -set=$brickID.0.$xbin.$ybin -dzbase=195 -from_plate=$1 -to_plate=$2 -v=2
+makescanset -set=$brickID.0.$xname.$yname -dzbase=195 -from_plate=$1 -to_plate=$2 -v=2
 
-#cp secondlink.rootrc link.rootrc
-emlink -set=$brickID.0.$xbin.$ybin -new -v=2 -ix=$xbin -iy=$ybin
+#cp secondlink.rootrc link.rootrc #REMEMBER TO DO IT BEFORE LAUNCHING THIS CODE!
+emlink -set=$brickID.0.$xname.$yname -new -v=2 -ix=$xbin -iy=$ybin
 
 #rm temporary files, not needed anymore
-rm b0000$brickID.0.$xbin.$ybin.set.root
+rm b0000$brickID.0.$xname.$yname.set.root
 for iplate in $(seq $2 $1)
  do
-  if [ $iplate -le 9 ]
-   then
-   rm p00$iplate/$brickID.$iplate.$xbin.$ybin.raw.root
-   #rm p0$iplate/$brickID.$iplate.$xbin.$ybin.par
-  elif [ $iplate -le 99 ]
-   then
-   rm p0$iplate/$brickID.$iplate.$xbin.$ybin.raw.root
-   #rm p0$iplate/$brickID.$iplate.$xbin.$ybin.par
-  else
-   rm p$iplate/$brickID.$iplate.$xbin.$ybin.raw.root
-   #rm p$iplate/$brickID.$iplate.$xbin.$ybin.par
-  fi
+  platefolder="$(printf "p%0*d" 3 $iplate)"
+  rm $platefolder/$brickID.$iplate.$xname.$yname.raw.root
  done
 
-cp b0000$brickID.0.$xbin.$ybin.link.ps plot_link/b0000$brickID.0.$xbin.$ybin.link_$1_$2.ps
-rm b0000$brickID.0.$xbin.$ybin.link.ps
+cp b0000$brickID.0.$xname.$yname.link.ps plot_link/b0000$brickID.0.$xname.$yname.link_$1_$2.ps
+rm b0000$brickID.0.$xname.$yname.link.ps

@@ -5,4 +5,4 @@ error = error/fistlinkingcells.$(ClusterId).$(ProcId).err
 log = log/linkingcells.$(ClusterId).log
 +JobFlavour = "workday"
 notification = Never
-queue CELL from seq 1 360 |
+queue CELL from seq 0 360 |

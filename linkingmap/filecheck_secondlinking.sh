@@ -8,7 +8,11 @@ for var in $(seq 1 360)
  do
   xbin=$((var / 19))
   ybin=$((var % 19))
-  file=p00$iplate/$brickID.$iplate.$xbin.$ybin.cp.root
+  #starting from 1 to 19, not 0 to 18
+  xname=$((xbin + 1))
+  yname=$((ybin + 1))
+  platefolder="$(printf "p%0*d" 3 $iplate)"
+  file=$platefolder/$brickID.$iplate.$xname.$yname.cp.root
   #file=p00$iplate/$brickID.$iplate.$xbin.$ybin.cp.root
   if [ -f "$file" ]
    then
