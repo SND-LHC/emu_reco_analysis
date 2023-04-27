@@ -1,8 +1,8 @@
 executable = condorlinking_first.sh
 arguments = $(ClusterID) $(ProcId) $(CELL)
-output = output/firstlinkingcells.$(ClusterId).$(ProcId).out
-error = error/fistlinkingcells.$(ClusterId).$(ProcId).err
+output = output/reco_firstlinkingcells.$(ClusterId).$(ProcId).out
+error = error/reco_fistlinkingcells.$(ClusterId).$(ProcId).err
 log = log/linkingcells.$(ClusterId).log
 +JobFlavour = "workday"
 notification = Never
-queue CELL from seq 0 360 |
+queue CELL in 128

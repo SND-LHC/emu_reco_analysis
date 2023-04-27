@@ -7,7 +7,7 @@ int couples_loop(TString cpfilename, int ix, int iy);
 
 void merge_couplestrees(int platenumber){
  //histo file
- outputfile = new TFile(Form("/eos/experiment/sndlhc/emulsionData/2022/CERN/emu_reco/RUN1/b000044/p00%i/44.%i.0.0_merged.cp.root",platenumber, platenumber),"RECREATE"); 
+ outputfile = new TFile(Form("/eos/experiment/sndlhc/emulsionData/2022/CERN/emu_reco/RUN1/b000044/p%0*i/44.%i.0.0_merged.cp.root",3,platenumber, platenumber),"RECREATE"); 
  //histograms to be stored
  TTimeStamp *tstamp = new TTimeStamp();
 
@@ -24,13 +24,13 @@ void merge_couplestrees(int platenumber){
  emulsioncell = new EdbCell2();
  emulsioncell->InitCell(nx,xmin,xmax,ny,ymin,ymax,1);
 
- TString prepath(Form("root:://eospublic.cern.ch//eos/experiment/sndlhc/emulsionData/2022/CERN/emu_reco/RUN1/b000044/p00%i/44.%i.",platenumber,platenumber));
+ TString prepath(Form("root:://eospublic.cern.ch//eos/experiment/sndlhc/emulsionData/2022/CERN/emu_reco/RUN1/b000044/p%0*i/44.%i.",3,platenumber,platenumber));
 
-for (int ix = 1; ix < nx; ix++){
- for (int iy = 1; iy < ny; iy++){
+for (int ix = 0; ix < nx; ix++){
+ for (int iy = 0; iy < ny; iy++){
 
   //second cp file, looping over couples
-  TString secondlinkcpfilename(prepath+TString(Form("%d.%d.cp.root",ix,iy)));
+  TString secondlinkcpfilename(prepath+TString(Form("%d.%d.cp.root",ix+1,iy+1))); //name starts 1 more now
   int loop_return = couples_loop(secondlinkcpfilename, ix, iy);
   }//end loop y
  }//end loop x
@@ -51,7 +51,7 @@ int couples_loop(TString cpfilename, int ix, int iy){
 
  EdbCouplesTree *mytree = new EdbCouplesTree();
  mytree->InitCouplesTree("couples",cpfilename.Data(),"READ");
- cout<<"Selecting cell "<<ix<<iy<<endl;
+ cout<<"Selecting cell "<<ix<<iy<<" from file "<<cpfilename.Data()<<endl;
 
  outputfile->cd();
  if (mytree->eTree->GetEntries()==0) return -1;

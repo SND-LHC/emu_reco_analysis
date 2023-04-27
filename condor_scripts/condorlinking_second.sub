@@ -3,6 +3,6 @@ arguments = $(ClusterID) $(ProcId) $(CELL)
 output = output/secondlinkingcells.$(ClusterId).$(ProcId).out
 error = error/secondlinkingcells.$(ClusterId).$(ProcId).err
 log = log/secondlinkingcells.$(ClusterId).log
-+JobFlavour = "microcentury"
++JobFlavour = "workday"
 notification = Never
-queue CELL from seq 1 360 |
+queue CELL from seq 0 360 |
