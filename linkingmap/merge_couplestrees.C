@@ -54,7 +54,8 @@ int couples_loop(TString cpfilename, int ix, int iy){
  cout<<"Selecting cell "<<ix<<iy<<" from file "<<cpfilename.Data()<<endl;
 
  outputfile->cd();
- if (mytree->eTree->GetEntries()==0) return -1;
+ if (!(mytree->eTree)) return -1; //no TTree in file
+ if (mytree->eTree->GetEntries()==0) return -1; //there is Tree in file, but it is empty
 
  TTree *outputtree = mytree->eTree->CopyTree(Form("eN1<=1&&eN2<=1&&s1.eFlag>=0&&s2.eFlag>=0&&TMath::Abs(s.eX-%.0f)<%.0f&&TMath::Abs(s.eY-%.0f)<%.0f"
   ,emulsioncell->X(ix),emulsioncell->Xbin()/2.,emulsioncell->Y(iy),emulsioncell->Ybin()/2.)); //removing cell overlap
