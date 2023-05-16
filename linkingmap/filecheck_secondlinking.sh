@@ -1,10 +1,10 @@
 #!/bin/bash
 
 brickID=44
-iplate=3
+iplate=30
 minimumsize=10000000
 counter=0
-for var in $(seq 1 360)
+for var in $(seq 0 360)
  do
   xbin=$((var / 19))
   ybin=$((var % 19))
