@@ -24,13 +24,17 @@ void merge_couplestrees(int platenumber){
  emulsioncell = new EdbCell2();
  emulsioncell->InitCell(nx,xmin,xmax,ny,ymin,ymax,1);
 
- TString prepath(Form("root:://eospublic.cern.ch//eos/experiment/sndlhc/emulsionData/2022/CERN/emu_reco/RUN1/b000044/p%0*i/44.%i.",3,platenumber,platenumber));
+ TString prepath(Form("/eos/experiment/sndlhc/emulsionData/2022/CERN/emu_reco/RUN1/b000044/p%0*i/44.%i.",3,platenumber,platenumber));
 
 for (int ix = 0; ix < nx; ix++){
  for (int iy = 0; iy < ny; iy++){
 
   //second cp file, looping over couples
   TString secondlinkcpfilename(prepath+TString(Form("%d.%d.cp.root",ix+1,iy+1))); //name starts 1 more now
+  if (gSystem->AccessPathName(secondlinkcpfilename.Data())){//returns False if file exists, True if it does not (yes, I find it weird too)
+    cout<<"File does not exist:"<<secondlinkcpfilename.Data()<<" moving to next cell"<<endl;
+    continue;
+   }
   int loop_return = couples_loop(secondlinkcpfilename, ix, iy);
   }//end loop y
  }//end loop x

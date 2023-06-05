@@ -4,6 +4,6 @@ output = output/mergecells.$(ClusterId).$(ProcId).out
 error = error/mergecells.$(ClusterId).$(ProcId).err
 log = log/mergecells.$(ClusterId).log
 +JobFlavour = "tomorrow"
-request_memory = 50GB
+request_memory = 80GB
 notification = Never
-queue PLATENUMBER in 6,7
+queue PLATENUMBER in 1
