@@ -20,8 +20,8 @@ makescanset -set=$brickID.0.$xname.$yname -dzbase=195 -from_plate=$1 -to_plate=$
 
 emtra -set=$brickID.0.$xname.$yname -new -v=2 -ix=$xbin -iy=$ybin
 
-mkdir trackfiles/57_1/rootfiles/cell_$xname_$yname
-mkdir trackfiles/57_1/parfiles/cell_$xname_$yname
+mkdir trackfiles/rootfiles/57_1/cell_$xname_$yname
+mkdir trackfiles/parfiles/57_1/cell_$xname_$yname
 
 cp b0000$brickID.0.$xname.$yname.trk.root trackfiles/rootfiles/57_1/cell_$xname_$yname/b0000$brickID.0.$xname.$yname.trk.root 
 rm b0000$brickID.0.$xname.$yname.trk.root
