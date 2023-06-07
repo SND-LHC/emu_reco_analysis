@@ -5,7 +5,7 @@ brickID=21
 #finally doing cell by cell tracking with realign
 #edit track.rootrc before launching
 
-var1=$1
+var1=$3
 xbin=$((var1 / 19))
 ybin=$((var1 % 19))
 
@@ -20,16 +20,16 @@ makescanset -set=$brickID.0.$xname.$yname -dzbase=195 -from_plate=$1 -to_plate=$
 
 emtra -set=$brickID.0.$xname.$yname -new -v=2 -ix=$xbin -iy=$ybin
 
-mkdir trackfiles/rootfiles/57_1/cell_$xname_$yname
-mkdir trackfiles/parfiles/57_1/cell_$xname_$yname
+mkdir trackfiles/57_1/rootfiles/cell_${xname}_${yname}
+mkdir trackfiles/57_1/parfiles/cell_${xname}_${yname}
 
-cp b0000$brickID.0.$xname.$yname.trk.root trackfiles/rootfiles/57_1/cell_$xname_$yname/b0000$brickID.0.$xname.$yname.trk.root 
+cp b0000$brickID.0.$xname.$yname.trk.root trackfiles/rootfiles/57_1/cell_${xname}_${yname}/b0000$brickID.0.$xname.$yname.trk.root 
 rm b0000$brickID.0.$xname.$yname.trk.root
 
-cp b0000$brickID.0.$xname.$yname.set.root trackfiles/parfiles/57_1/cell_$name_$yname/b0000$brickID.0.$xname.$yname.set.root
+cp b0000$brickID.0.$xname.$yname.set.root trackfiles/parfiles/57_1/cell_${xname}_${yname}/b0000$brickID.0.$xname.$yname.set.root
 rm b0000$brickID.0.$xname.$yname.set.root 
 
-cd trackfiles/rootfiles/57_1/cell_$name_$yname/
+cd trackfiles/rootfiles/57_1/cell_${xname}_${yname}/
 ln -s b0000$brickID.0.$xname.$yname.trk.root linked_tracks.root
 
 
