@@ -1,0 +1,9 @@
+executable = doallalign.sh
+arguments = $(ClusterID) $(ProcId)
+output = output/align.$(ClusterId).$(ProcId).out
+error = error/align.$(ClusterId).$(ProcId).err
+log = log/align.$(ClusterId).log
++JobFlavour = "testmatch"
+notification = Never
+queue 1
+
