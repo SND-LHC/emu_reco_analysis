@@ -20,16 +20,14 @@ makescanset -set=$brickID.0.$xname.$yname -dzbase=195 -from_plate=$1 -to_plate=$
 
 emtra -set=$brickID.0.$xname.$yname -new -v=2 -ix=$xbin -iy=$ybin
 
-mkdir trackfiles/57_1/rootfiles/cell_${xname}_${yname}
-mkdir trackfiles/57_1/parfiles/cell_${xname}_${yname}
+mkdir trackfiles/rootfiles/${1}_${2}/cell_${xname}_${yname}
+mkdir trackfiles/parfiles/${1}_${2}/cell_${xname}_${yname}
 
-cp b0000$brickID.0.$xname.$yname.trk.root trackfiles/rootfiles/57_1/cell_${xname}_${yname}/b0000$brickID.0.$xname.$yname.trk.root 
-rm b0000$brickID.0.$xname.$yname.trk.root
+mv -v b0000$brickID.0.$xname.$yname.trk.root trackfiles/rootfiles/${1}_${2}/cell_${xname}_${yname}/b0000$brickID.0.$xname.$yname.trk.root 
 
-cp b0000$brickID.0.$xname.$yname.set.root trackfiles/parfiles/57_1/cell_${xname}_${yname}/b0000$brickID.0.$xname.$yname.set.root
-rm b0000$brickID.0.$xname.$yname.set.root 
+mv -v b0000$brickID.0.$xname.$yname.set.root trackfiles/parfiles/${1}_${2}/cell_${xname}_${yname}/b0000$brickID.0.$xname.$yname.set.root
 
-cd trackfiles/rootfiles/57_1/cell_${xname}_${yname}/
+cd trackfiles/rootfiles/${1}_${2}/cell_${xname}_${yname}/
 ln -s b0000$brickID.0.$xname.$yname.trk.root linked_tracks.root
 
 
