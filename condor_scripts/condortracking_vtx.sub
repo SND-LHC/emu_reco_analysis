@@ -4,6 +4,6 @@ output = output/trackingvtx.$(ClusterId).$(ProcId).out
 error = error/trackingvtx.$(ClusterId).$(ProcId).err
 log = log/trackingvtx.$(ClusterId).log
 +JobFlavour = "nextweek"
-request_memory = 20GB
+request_memory = 10GB
 notification = Never
 queue CELL from seq 0 360 |

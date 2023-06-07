@@ -1,4 +1,4 @@
-executable = condortraking_realign.sh
+executable = condortracking_realign.sh
 arguments = $(ClusterID) $(ProcId) $(CELL)
 output = output/trackingrealign.$(ClusterId).$(ProcId).out
 error = error/trackingrealign.$(ClusterId).$(ProcId).err
