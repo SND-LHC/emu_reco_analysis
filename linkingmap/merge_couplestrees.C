@@ -7,7 +7,7 @@ int couples_loop(TString cpfilename, int ix, int iy);
 
 void merge_couplestrees(int platenumber){
  //histo file
- outputfile = new TFile(Form("/eos/experiment/sndlhc/emulsionData/2022/CERN/emu_reco/RUN1/b000044/p%0*i/44.%i.0.0_merged.cp.root",3,platenumber, platenumber),"RECREATE"); 
+ outputfile = new TFile(Form("/eos/experiment/sndlhc/emulsionData/2022/CERN/emu_reco/RUN1/b000041/p%0*i/41.%i.0.0_merged.cp.root",3,platenumber, platenumber),"RECREATE"); 
  //histograms to be stored
  TTimeStamp *tstamp = new TTimeStamp();
 
@@ -24,7 +24,7 @@ void merge_couplestrees(int platenumber){
  emulsioncell = new EdbCell2();
  emulsioncell->InitCell(nx,xmin,xmax,ny,ymin,ymax,1);
 
- TString prepath(Form("/eos/experiment/sndlhc/emulsionData/2022/CERN/emu_reco/RUN1/b000044/p%0*i/44.%i.",3,platenumber,platenumber));
+ TString prepath(Form("/eos/experiment/sndlhc/emulsionData/2022/CERN/emu_reco/RUN1/b000041/p%0*i/41.%i.",3,platenumber,platenumber));
 
 for (int ix = 0; ix < nx; ix++){
  for (int iy = 0; iy < ny; iy++){
