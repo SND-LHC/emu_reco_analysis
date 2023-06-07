@@ -1,36 +1,24 @@
 #!/bin/bash
-#usage: source create_link_mic2.sh platelast platefirst 
-# (es. source create_link_mic2.sh 3 2) 
-BRICKID=44
-RAWDATAPATH=/eos/experiment/sndlhc/emulsionData/2022/CERN/SND/RUN1/RUN1_W4_B4
-RECODATAPATH=/eos/experiment/sndlhc/emulsionData/2022/CERN/emu_reco/RUN1/b000044/
+#usage: source create_link_miccern.sh brickID platelast platefirst 
+# (es. source create_link_miccern.sh 44 3 2) 
+
+BRICKID=$1
+NWALL=(${BRICKID:0:1})
+NBRICK=(${BRICKID:1:2})
+BRICKFOLDER="$(printf "b%0*d" 6 $BRICKID)"
+RAWDATAPATH=/eos/experiment/sndlhc/emulsionData/2022/CERN/SND/RUN1/RUN1_W$NWALL\_B$NBRICK
+RECODATAPATH=/eos/experiment/sndlhc/emulsionData/2022/CERN/emu_reco/RUN1/$BRICKFOLDER/
+
 # Basic if statemen
-for i in $(seq -w $2 $1)
+for iplate in $(seq -w $3 $2)
 
   do
 
-  if [ $i -le 9 ]
-      
-      then
+  RAWPLATEFOLDER="$(printf "P%0*d" 3 $iplate)"
+  PLATEFOLDER="$(printf "p%0*d" 3 $iplate)"
 
-      mkdir $RECODATAPATH/p00$i
-      ln -s $RAWDATAPATH/P00$i/tracks.raw.root $RECODATAPATH/p00$i/$BRICKID.$i.0.0.raw.root
-      echo link creato per la cartella p00$i
-      
-  elif [ $i -le 99 ]
-
-      then
-
-      mkdir $RECODATAPATH/p0$i
-      ln -s $RAWDATAPATH/P0$i/tracks.raw.root $RECODATAPATH/p0$i/$BRICKID.$i.0.0.raw.root
-      echo link creato per la cartella p0$i
-
-  else
-      
-      mkdir $RECODATAPATH/p$i
-      ln -s $RAWDATAPATH/P$i/tracks.raw.root $RECODATAPATH/p$i/$BRICKID.$i.0.0.raw.root
-      echo link creato per la cartella p$i
-      
-  fi
+  mkdir $RECODATAPATH/$PLATEFOLDER
+  ln -s $RAWDATAPATH/$RAWPLATEFOLDER/tracks.raw.root $RECODATAPATH/$PLATEFOLDER/$BRICKID.$iplate.0.0.raw.root
+  echo link creato per la cartella $PLATEFOLDER alla cartella $RAWDATAPATH/$RAWPLATEFOLDER/
   
 done
