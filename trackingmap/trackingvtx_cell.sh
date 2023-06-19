@@ -16,8 +16,6 @@ yname=$((ybin + 1))
 
 echo "Starting tracking without realign"
 
-makescanset -set=$brickID.0.$xname.$yname -dzbase=195 -from_plate=$1 -to_plate=$2 -v=2
-
 emtra -set=$brickID.0.$xname.$yname -new -v=2 -ix=$xbin -iy=$ybin
 
 mkdir trackfiles/rootfiles/${1}_${2}/cell_${xname}_${yname}
