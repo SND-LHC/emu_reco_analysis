@@ -3,16 +3,17 @@ import numpy as np
 import fedrarootlogon
 from time import time
 import os.path
+from array import array
+
 
 from argparse import ArgumentParser
 parser = ArgumentParser()
-parser.add_argument("-x", dest="xcell", help="xcell", required=True, type=int)
-parser.add_argument("-y", dest="ycell", help="ycell", required=True, type=int)
-parser.add_argument("--clusID", dest="ClusterID", required=False, default=0)
-parser.add_argument("--procID", dest="ProcID", required=False, default=None, type=int)
+parser.add_argument("-x", dest="xcell", help="xcell", required=False, type=int)
+parser.add_argument("-y", dest="ycell", help="ycell", required=False, type=int)
+parser.add_argument("--cell", dest="cellID", required=True, default=None, type=int)
 options = parser.parse_args()
 
-brickID = 21
+brickID = 44
 from_plate = 57
 to_plate = 1
 ncells = 19
@@ -20,48 +21,97 @@ ncellmin = 0
 ncellmax= 190000
 cellsize= (ncellmax-ncellmin)/ncells
 overlap_fraction = 0.25
-zmin = -75262
+zmin = -74967.80
 
-path = '/eos/experiment/sndlhc/emulsionData/2022/emureco_Napoli/RUN1/b{:06d}/trackfiles/rootfiles/{}_{}'.format(brickID, from_plate, to_plate)
-out_dir = '/eos/experiment/sndlhc/emulsionData/2022/emureco_Napoli/RUN1/b{:06d}/vertexfiles/{}_{}'.format(brickID, from_plate, to_plate)
+path = '/eos/experiment/sndlhc/emulsionData/2022/CERN/emu_reco/RUN1/b{:06d}/trackfiles/rootfiles/{}_{}'.format(brickID, from_plate, to_plate)
+out_dir = '/afs/cern.ch/work/f/falicant/public/RUN1/condor_submissions/brick44/23_06_28_vtxanalysis'
+
+icell = options.cellID
+xbin=((icell // ncells)) + 1
+ybin=((icell % ncells)) + 1
 
 #histo setup
-h_n = r.TH1D('n','multiplicity;multiplicity', 50, 0, 50)
-h_flag = r.TH1D('flag','flag;flag', 6, 0, 6)
-h_vz = r.TH1D('vz','vz;vz[um]', 400, -80000, 5000)
-h_vxy = r.TH2D('vxvy', 'vxvy;vx[um];vy[um]', 190, 0, 190000, 190, 190000)
-h_n0 = r.TH1D('ntracks', 'multiplicity;multiplicity', 47, 3, 50)
-h_nseg = r.TH1D('nseg', 'nseg;nseg', 52, 4, 58)
-h_npl = r.TH1D('npl', 'npl;npl', 58, 0, 58)
-h_ff = r.TH1D('ff', 'fill factor;FF', 22, 0, 1.1)
-h_imp = r.TH1D('ip', 'impact parameter;ip[um]', 100, 0, 300)
-h_prob = r.TH1D('prob', 'probability;prob', 30, 0, 1.05)
-h_maxape = r.TH1D('maxape', 'max aperture;max_ape', 100, 0, 5)
+h_n = r.TH1D('n','Multiplicity;multiplicity', 50, 0, 50)
+h_flag = r.TH1D('flag','Flag;flag', 6, 0, 6)
+h_vz = r.TH1D('vz','Vertex z position;vz[um]', 400, -80000, 5000)
+# cz = r.TCanvas('cz', 'vtx_zposition', 800, 600)
+h_vxy = r.TH2D('vxy', 'Vertex xy map;vx[um];vy[um]', 190, 0, 190000, 190, 0, 190000)
+h_n0 = r.TH1D('n0', 'Multiplicity;multiplicity', 47, 3, 50)
+h_nseg = r.TH1D('nseg', 'Number of segments;nseg', 56, 4, 60)
+h_npl = r.TH1D('npl', ' Number of crossing films;npl', 56, 4, 60)
+h_ff = r.TH1D('ff', 'Fill Factor;FF', 22, 0, 1.05)
+h_ip = r.TH1D('ip', 'Impact parameter;ip[um]', 100, 0, 300)
+h_meanff = r.TH1D('meanff', 'Mean Fill Factor;FF', 22, 0, 1.05)
+h_meanip = r.TH1D('meanip', 'Mean impact parameter;ip[um]', 100, 0, 300)
+h_prob = r.TH1D('prob', 'Probability;prob', 30, 0, 1.02)
+h_maxape = r.TH1D('maxape', 'Max aperture;max_ape', 50, 0, 2.5)
 
-xbin=options.xcell
-ybin=options.ycell
-
-#save vertices in root file
-outputFile = r.TFile(out_dir+"/vertex_selection_{}_{}.root".format(xbin, ybin),"RECREATE")	
-# outputTree = r.TNtuple("vtx","Tree of vertices","cell:vID:vx:vy:vz:flag:n:nseg:npl:nfirst:ff:meanIP:prob:maxape")
-outputTree = r.TNtuple("vtx","Tree of vertices","cell:vID:n:ff:meanIP:prob:maxape")
 
 meminfo = r.MemInfo_t()
 info = r.gSystem.GetMemInfo(meminfo)
 print("memory start", meminfo.fMemUsed)
 
-for icell in range(1):
-    start_time = time()
-    #xbin=((icell // ncells)) + 1
-    #ybin=((icell % ncells)) + 1
-    xbin=options.xcell
-    ybin=options.ycell
-    cell_path = path+'/cell_{}'.format(ybin)
-    #reading vertices
-    vtx_file = cell_path+'/vertextree_{}_{}.root'.format(xbin, ybin)
-    if not os.path.isfile(vtx_file): 
-        #print("file does not exist ",vtx_file)
-        continue
+N=20
+M=57
+start_time = time()
+# xbin=options.xcell
+# ybin=options.ycell
+cell_path = path+'/cell_{}_{}'.format(xbin, ybin)
+#reading vertices
+vtx_file = cell_path+'/vertextree.root'
+if os.path.isfile(vtx_file):
+    #save vertices in root file
+    outputFile = r.TFile(out_dir+"/vertex_selection_{}_{}.root".format(xbin, ybin),"RECREATE")	
+    outputTree = r.TTree("vtx","Tree of vertices")
+    
+    _cellx = array('i', [0])
+    _celly = array('i', [0])
+    _vID = array('i', [0])
+    _vx = array('f', [0])
+    _vy = array('f', [0])
+    _vz = array('f', [0])
+    _ntrks = array('i', [0])
+    _nsegtot = array('i', [0])
+    _nseg = array('i', N*[0])
+    _npl = array('i', N*[0])
+    _fillfact_t = array('f', N*[0])
+    _fillfact = array('f', [0])
+    _meanIP = array('f', [0])
+    _ip = array('f', N*[0])
+    _prob = array('f', [0])
+    _maxaperture = array('f', [0])
+    _sChi2 = array('f', N*M*[0])
+    _sW = array('f', N*M*[0])
+    _sVolume = array('f', N*M*[0])
+    _sTX = array('f', N*M*[0])
+    _sTY = array('f', N*M*[0])
+    _sPID = array('f', N*M*[0])
+    _sID = array('f', N*M*[0])
+
+    outputTree.Branch("cellx", _cellx, "cellx/I")
+    outputTree.Branch("celly", _celly, "celly/I")
+    outputTree.Branch("vID", _vID, "vID/I")
+    outputTree.Branch("vx", _vx, "vx/F")
+    outputTree.Branch("vy", _vy, "vy/F")
+    outputTree.Branch("vz", _vz, "vz/F")
+    outputTree.Branch("ntrks", _ntrks, "ntrks/I")
+    outputTree.Branch("nsegtot", _nsegtot, "nsegtot/I")
+    outputTree.Branch("nseg", _nseg, "nseg[ntrks]/I")
+    outputTree.Branch("npl", _npl, "npl[ntrks]/I")
+    outputTree.Branch("fillfact", _fillfact, "fillfact/F")
+    outputTree.Branch("fillfact_t", _fillfact_t, "fillfact_t[ntrks]/F")
+    outputTree.Branch("meanIP", _meanIP, "meanIP/F")
+    outputTree.Branch("ip", _ip, "ip[ntrks]/F")
+    outputTree.Branch("prob", _prob, "prob/F")
+    outputTree.Branch("maxaperture", _maxaperture, "maxaperture/F")
+    outputTree.Branch("sChi2", _sChi2, "sChi2[nsegtot]/F")
+    outputTree.Branch("sW", _sW, "sW[nsegtot]/F")
+    outputTree.Branch("sVolume", _sVolume, "sVolume[nsegtot]/F")
+    outputTree.Branch("sTX", _sTX, "sTX[nsegtot]/F")
+    outputTree.Branch("sTY", _sTY, "sTY[nsegtot]/F")
+    outputTree.Branch("sPID", _sPID, "sPID[nsegtot]/F")
+    outputTree.Branch("sID", _sID, "sID[nsegtot]/F")
+
     print("opening file: ",vtx_file)
     dproc = r.EdbDataProc()
     gAli = dproc.PVR()
@@ -84,32 +134,33 @@ for icell in range(1):
         vx = vtx.VX()
         vy = vtx.VY()
         #cell cuts
-        if vx < (xbin-1-overlap_fraction/2)*cellsize: continue
-        if vx > (xbin+overlap_fraction/2)*cellsize: continue
-        if vy < (ybin-1-overlap_fraction/2)*cellsize: continue
-        if vy > (ybin+overlap_fraction/2)*cellsize: continue
+        if vx < (xbin-1)*cellsize: continue
+        if vx >= (xbin)*cellsize: continue
+        if vy < (ybin-1)*cellsize: continue
+        if vy >= (ybin)*cellsize: continue
+        h_vxy.Fill(vx, vy)
         vz = vtx.VZ()
         flag = vtx.Flag()
-        ntracks = vtx.N()
+        ntrks = vtx.N()
         h_vz.Fill(vz)
         #z cut
         if vz < zmin: continue
         if vz > 0: continue
-        h_n.Fill(ntracks)
+        h_n.Fill(ntrks)
         #multiplicity cut
-        if ntracks < 3: continue
+        if ntrks < 3: continue
         h_flag.Fill(flag)
-        h_vxy.Fill(vx, vy)
         #flag 0 cut
         if flag == 0 or flag == 3:
-            h_n0.Fill(ntracks)
+            h_n0.Fill(ntrks)
             nplList = []
             nsegList = []
             ffList = []
             ipList = []
-            for itrack in range(ntracks):
+            segidx = 0
+            for itrack in range(ntrks):
                 track = vtx.GetTrack(itrack)
-                h_imp.Fill(vtx.GetVTa(itrack).Imp())         
+                h_ip.Fill(vtx.GetVTa(itrack).Imp())         
                 ipList.append(vtx.GetVTa(itrack).Imp())
                 nseg = track.N()
                 npl = track.Npl()
@@ -122,34 +173,65 @@ for icell in range(1):
                 h_nseg.Fill(nseg)
                 h_npl.Fill(npl)
                 h_ff.Fill(FF)
+                _nseg[itrack] = nseg
+                _npl[itrack] = npl
+                _fillfact_t[itrack] = FF
+                _ip[itrack] = vtx.GetVTa(itrack).Imp()
+                for iseg in range(nseg):
+                    couple = track.GetSegment(iseg)
+                    _sChi2[segidx] = couple.Chi2()
+                    _sW[segidx] = couple.W()
+                    _sVolume[segidx] = couple.Volume()
+                    _sTX[segidx] = couple.TX()
+                    _sTY[segidx] = couple.TY()
+                    _sPID[segidx] = couple.PID()
+                    _sID[segidx] = couple.ID()
+                    segidx+=1
             h_prob.Fill(vtx.V().prob())
             h_maxape.Fill(vtx.MaxAperture())
-            # outputTree.Fill(icell, vtx.ID(), vx, vy, vz, flag, ntracks, np.mean(nsegList), np.mean(nplList), nfirst, np.mean(ffList), np.mean(ipList), vtx.V().prob(), vtx.MaxAperture())
-            outputTree.Fill(icell, vtx.ID(), ntracks, np.mean(ffList), np.mean(ipList), vtx.V().prob(), vtx.MaxAperture())
+            h_meanff.Fill(np.mean(ffList))
+            h_meanip.Fill(np.mean(ipList))
+            # outputTree.Fill(icell, vtx.ID(), ntrks, np.mean(ffList), np.mean(ipList), vtx.V().prob(), vtx.MaxAperture())
+            _cellx[0] = xbin
+            _celly[0] = ybin
+            _vx[0]=vx
+            _vy[0]=vy
+            _vz[0]=vz
+            _vID[0] = vtx.ID()
+            _ntrks[0] = ntrks
+            _nsegtot[0] = segidx
+            _fillfact[0] = np.mean(ffList)
+            _meanIP[0] = np.mean(ipList)
+            _prob[0] = vtx.V().prob()
+            _maxaperture[0] = vtx.MaxAperture()
+            outputTree.Fill()
+
     del gAli
     info = r.gSystem.GetMemInfo(meminfo)
     print("memory end", meminfo.fMemUsed)
-    print(time()-start_time)
 
+    #write output files
+    outputFile.cd()
+    outputTree.Write()
+    outputFile.Close()
 
-#write output files
-outputFile.cd()
-outputTree.Write()
-outputFile.Close()
+    histoFile = r.TFile(out_dir+"/hist_out_{}_{}.root".format(xbin, ybin), "RECREATE")
+    h_n.Write()
+    h_flag.Write()
+    h_vxy.Write()
+    h_vz.Write()
+    # cz.Write()
+    h_n0.Write()
+    h_nseg.Write()
+    h_npl.Write()
+    h_ff.Write()
+    h_ip.Write()
+    h_meanff.Write()
+    h_meanip.Write()
+    h_prob.Write()
+    h_maxape.Write()
+    histoFile.Write()
+    histoFile.Close()
 
-histoFile = r.TFile(out_dir+"/hist_out_{}_{}.root".format(xbin, ybin), "RECREATE")
-h_n.Write()
-h_flag.Write()
-h_vz.Write()
-h_n0.Write()
-h_nseg.Write()
-h_npl.Write()
-h_ff.Write()
-h_imp.Write()
-h_prob.Write()
-h_maxape.Write()
-histoFile.Write()
-histoFile.Close()
-
-end_time = time()-start_time
-print("TOTAL ELAPSED TIME ", end_time)
+    end_time = time()-start_time
+    print("TOTAL ELAPSED TIME ", end_time)
