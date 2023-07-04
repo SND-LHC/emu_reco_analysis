@@ -1,7 +1,7 @@
 #!/bin/bash
 
 brickID=44
-iplate=30
+iplate=10
 minimumsize=10000000
 counter=0
 for var in $(seq 0 360)

@@ -15,12 +15,19 @@ brickID=44
 #finally doing cell by cell linking
 
 var1=$3
-xbin=$((var1 / 19))
-ybin=$((var1 % 19))
+xbin=$((var1 / 9))
+ybin=$((var1 % 9))
 
 #starting from 1 to 19, not 0 to 18
 xname=$((xbin + 1))
 yname=$((ybin + 1))
+
+#temporary copy of link to raw data (need to do again)
+for iplate in $(seq $2 $1)
+ do
+  platefolder="$(printf "p%0*d" 3 $iplate)"
+  cp -dv $platefolder/$brickID.$iplate.0.0.raw.root $platefolder/$brickID.$iplate.$xname.$yname.raw.root
+ done 
 
 echo "Starting true linking"
 
@@ -37,5 +44,5 @@ for iplate in $(seq $2 $1)
   rm $platefolder/$brickID.$iplate.$xname.$yname.raw.root
  done
 
-cp b0000$brickID.0.$xname.$yname.link.ps plot_link/b0000$brickID.0.$xname.$yname.link_$1_$2.ps
+cp b0000$brickID.0.$xname.$yname.link.ps plot_link/b0000$brickID.0.$xname.$yname.link_$1_$2_2.ps
 rm b0000$brickID.0.$xname.$yname.link.ps

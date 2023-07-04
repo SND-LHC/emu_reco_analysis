@@ -3,6 +3,10 @@ arguments = $(ClusterID) $(ProcId) $(CELL)
 output = output/firstlinkingcells.$(ClusterId).$(ProcId).out
 error = error/fistlinkingcells.$(ClusterId).$(ProcId).err
 log = log/linkingcells.$(ClusterId).log
-+JobFlavour = "workday"
++JobFlavour = "microcentury"
 notification = Never
-queue CELL from seq 0 360 |
+request_memory = 6GB
+requirements = Machine =!= LastRemoteHost
+on_exit_remove          = (ExitBySignal == False) && (ExitCode == 0)
+max_retries             = 3
+queue CELL from seq 0 80 |
