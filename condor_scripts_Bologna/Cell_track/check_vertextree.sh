@@ -13,8 +13,12 @@ do
 	if [ ! -f "/eos/experiment/sndlhc/emulsionData/2022/emureco_Bologna/RUN1/b000051/trackfiles/57_1/rootfiles/cell_${xname}_${yname}/vertextree.root" ]; then
 	        echo "The vertexing is still missing in cell_${xname}_${yname}"
 		((counter +=1))
+	else
+		if [ -f "/eos/experiment/sndlhc/emulsionData/2022/emureco_Bologna/RUN1/b000051/trackfiles/57_1/rootfiles/cell_${xname}_${yname}/b000051.0.0.0.set.root" ]; then
+			echo "Remove file b000051.0.0.0.set.root"
+			rm /eos/experiment/sndlhc/emulsionData/2022/emureco_Bologna/RUN1/b000051/trackfiles/57_1/rootfiles/cell_${xname}_${yname}/b000051.0.0.0.set.root
+		fi		
 	fi
 done
 echo "In total missing ${counter} cells"
-unset counter 
-
+unset counter
