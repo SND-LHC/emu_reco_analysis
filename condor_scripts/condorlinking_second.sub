@@ -4,5 +4,9 @@ output = output/secondlinkingcells.$(ClusterId).$(ProcId).out
 error = error/secondlinkingcells.$(ClusterId).$(ProcId).err
 log = log/secondlinkingcells.$(ClusterId).log
 +JobFlavour = "microcentury"
+request_memory = 6GB
 notification = Never
-queue CELL from seq 1 360 |
+requirements = Machine =!= LastRemoteHost
+on_exit_remove          = (ExitBySignal == False) && (ExitCode == 0)
+max_retries             = 3
+queue CELL from seq 0 80 |

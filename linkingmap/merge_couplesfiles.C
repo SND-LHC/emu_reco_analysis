@@ -39,13 +39,13 @@ void merge_couplesfiles(){
  TH1F *hshr1 = new TH1F("hshr1","Shrinkage corrections all cells bot;shr1",60,0.7,1.0);
  TH1F *hshr2 = new TH1F("hshr2","Shrinkage corrections all cells top;shr2",60,0.7,1.0);
 
- TString prepath(Form("/eos/experiment/sndlhc/emulsionData/2022/CERN/emu_reco/b000431/p0%i/431.%i.",platenumber,platenumber));
+ TString prepath(Form("/eos/experiment/sndlhc/emulsionData/2022/CERN/emu_reco/b000431/p%0*i/431.%i.",3,platenumber,platenumber));
 
 for (int ix = 0; ix < nx; ix++){
  for (int iy = 0; iy < ny; iy++){
 
   //first cp check
-  TString firstlinkcpfilename(prepath+TString(Form("%d.%d.firstlinkcp.root",ix,iy)));
+  TString firstlinkcpfilename(prepath+TString(Form("%d.%d.firstlinkcp.root",ix+1,iy+1)));
   TFile *firstcpfile = TFile::Open(firstlinkcpfilename.Data()); 
   if(firstcpfile){
    EdbSegCorr *corr1 = (EdbSegCorr*) firstcpfile->Get("corr1");
@@ -61,7 +61,7 @@ for (int ix = 0; ix < nx; ix++){
    continue;
    }
   //second cp file, looping over couples
-  TString secondlinkcpfilename(prepath+TString(Form("%d.%d.cp.root",ix,iy)));
+  TString secondlinkcpfilename(prepath+TString(Form("%d.%d.cp.root",ix+1,iy+1)));
   int loop_return = couples_loop(secondlinkcpfilename, ix, iy);
   }//end loop y
  }//end loop x

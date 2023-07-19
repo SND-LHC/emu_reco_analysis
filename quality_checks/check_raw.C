@@ -49,6 +49,10 @@ void init()
 {
   cr_tree->SetAlias("puls",  "segments.GetPuls()");
   cr_tree->SetAlias("volume","segments.GetVolume()");
+  //SND@LHC quality plots over the full surface require higher precision densities
+  gEnv->SetValue("Hist.Precision.1D", "double");
+  gEnv->SetValue("Hist.Precision.2D", "double");
+  gEnv->SetValue("Hist.Precision.3D", "double");
 }
 
 //-------------------------------------------------------

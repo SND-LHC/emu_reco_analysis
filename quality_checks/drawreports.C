@@ -2,17 +2,18 @@
 //in the b000001 folder, there should be already a folder called 
 //plots with subfolders: thicknesses, link_reports, al_reports
 //TString: class which allows path concatenation. Access the char* object with Data()
-const int brick = 24; //3 with large angles
-const int firstplate = 7;
-const int lastplate = 7;
+const int brick = 44; //3 with large angles
+//const int firstplate = 1;
+//const int lastplate = 1;
 
-TString path = TString("/home/scanner/sndlhc/RUN1");
+TString path = TString("/eos/experiment/sndlhc/emulsionData/2022/CERN/emu_reco/RUN1");
+TString plotpath = TString("/eos/user/s/snd2cern/emu_reco_plots/RUN1");
 
 
 //TString run = "GSI5";
 //TString brick = TString(run.Data()[3]); //syntax is GSI1,GSI2,GSI3,GSI4
 
-void couplesweight(){
+void couplesweight(int lastplate, int firstplate){
    for (int iplate = firstplate; iplate <= lastplate; iplate++){
         TFile *inputfile;
         TTree *couples;
@@ -24,7 +25,7 @@ void couplesweight(){
                 
             TCanvas *c = new TCanvas();
             couples->Draw("s.eW");
-            c->Print(Form((path+"/b%06i/plots/couples_weight/cp_p%i.png").Data(),brick,iplate),"png");
+            c->Print(Form((plotpath+"/b%06i/plots/couples_weight/cp_p%i.png").Data(),brick,iplate),"png");
 
             }
         }
@@ -32,7 +33,7 @@ void couplesweight(){
    } //end loop ocver plates
 }
 
-void couplesecography(){
+void couplesecography(int lastplate, int firstplate){
     //check for quality of couples for alignment, as suggested by Dario
     TCanvas *c = new TCanvas("c","cxy couples quality",800,800);
     for (int iplate = firstplate; iplate <= lastplate; iplate++){
@@ -48,14 +49,14 @@ void couplesecography(){
                 couples = (TTree*) inputfile->Get("couples");
                 
                 couples->Draw("s.eY:s.eX","eCHI2P<2.0&&s.eW>10&&eN1==1&&eN2==1");
-                c->Print(Form((path+"/b%06i/plots/goodcouples/goodcp_p%i.png").Data(),brick,iplate),"png");
+                c->Print(Form((plotpath+"/b%06i/plots/goodcouples/goodcp_p%i.png").Data(),brick,iplate),"png");
 
             }
         }
     }//end loop on files
 }
 
-void linkreports(){
+void linkreports(int lastplate, int firstplate){
     TFile *inputfile;
     TCanvas *c;
     for (int iplate = firstplate; iplate <= lastplate; iplate++){
@@ -72,7 +73,7 @@ void linkreports(){
         
           //saving many png images for quick view
           c->Draw();
-          c->Print(Form((path+"/b%06i/plots/link_reports/link_p%i.png").Data(),brick,iplate),"png");
+          c->Print(Form((plotpath+"/b%06i/plots/link_reports/link_p%i.png").Data(),brick,iplate),"png");
          }
          else cout<<"coul not open report for plate "<<iplate<<endl;        
          //close the file
@@ -81,7 +82,7 @@ void linkreports(){
     }
 }
 
-void alreports(){
+void alreports(int lastplate, int firstplate){
     TFile *inputfile;
     TCanvas *c;
     for (int i = firstplate; i <= lastplate; i++){
@@ -92,7 +93,7 @@ void alreports(){
         c->Draw();
         
         //saving many png images for quick view
-        c->Print(Form((path+"/b%06d/plots/al_reports/alignment_p%i.png").Data(),brick,i,i-1));
+        c->Print(Form((plotpath+"/b%06d/plots/al_reports/alignment_p%i.png").Data(),brick,i,i-1));
         inputfile->Close();
     }
 }
@@ -102,7 +103,7 @@ void alreports(){
 #include "check_raw.C"
 void thickness();
 
-void drawallthicknesses(){
+void drawallthicknesses(int lastplate, int firstplate){
     
     double meanthickness_base = 0.;
     double meanthickness_emu = 0.;
@@ -133,7 +134,7 @@ void drawallthicknesses(){
         meanthickness_emu += hdown->GetMean();
         
         TCanvas *canvas = (TCanvas*) gROOT->GetSelectedPad()->GetCanvas();
-        canvas->Print(Form((path+"/b%06d/plots/thicknesses/thickness_plate%i.png").Data(),brick,i));
+        canvas->Print(Form((plotpath+"/b%06d/plots/thicknesses/thickness_plate%i.png").Data(),brick,i));
         
     }
     meanthickness_emu = meanthickness_emu/((lastplate - firstplate + 1)*2);
@@ -143,7 +144,7 @@ void drawallthicknesses(){
     //gROOT->GetSelectedPad()->GetCanvas()->Print((path+"/b%06i/plots/thicknesses/allthicknesses.pdf)").Data(),"pdf");
 }
 
-void drawallraws(){
+void drawallraws(int lastplate, int firstplate){
   TCanvas *cz = NULL;
   TCanvas *cview = NULL;
   TCanvas *csurf = NULL;
@@ -157,9 +158,9 @@ void drawallraws(){
 	TCanvas *cview = (TCanvas*) gROOT->FindObject("view");
         TCanvas *csurf = (TCanvas*) gROOT->FindObject("csurf");
 
-        cz->Print(Form((path+"/b%06d/plots/raws/checkz_plate%i.png").Data(),brick,i));
-	cview->Print(Form((path+"/b%06d/plots/raws/checkview_plate%i.png").Data(),brick,i));
-	csurf->Print(Form((path+"/b%06d/plots/raws/checksurf_plate%i.png").Data(),brick,i));
+        cz->Print(Form((plotpath+"/b%06d/plots/raws/checkz_plate%i.png").Data(),brick,i));
+	cview->Print(Form((plotpath+"/b%06d/plots/raws/checkview_plate%i.png").Data(),brick,i));
+	csurf->Print(Form((plotpath+"/b%06d/plots/raws/checksurf_plate%i.png").Data(),brick,i));
 
 	//closing canvases
 	cz->Close();

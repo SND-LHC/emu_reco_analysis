@@ -1,0 +1,8 @@
+executable = condorlinking_second.sh
+arguments = $(ClusterID) $(ProcId) $(CELL)
+output = output/reco_secondlinkingcells.$(ClusterId).$(ProcId).out
+error = error/reco_secondlinkingcells.$(ClusterId).$(ProcId).err
+log = log/reco_secondlinkingcells.$(ClusterId).log
++JobFlavour = "workday"
+notification = Never
+queue CELL in 18,19

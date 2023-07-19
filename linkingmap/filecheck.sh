@@ -1,14 +1,18 @@
 #!/bin/bash
 
 brickID=44
-iplate=1
+iplate=10
 minimumsize=10000000
 counter=0
-for var in $(seq 1 360)
+for var in $(seq 0 360)
  do
   xbin=$((var / 19))
   ybin=$((var % 19))
-  file=p00$iplate/$brickID.$iplate.$xbin.$ybin.firstlinkcp.root
+  #starting from 1 to 19, not 0 to 18
+  xname=$((xbin + 1))
+  yname=$((ybin + 1))
+  platefolder="$(printf "p%0*d" 3 $iplate)"
+  file=$platefolder/$brickID.$iplate.$xname.$yname.firstlinkcp.root
   #file=p00$iplate/$brickID.$iplate.$xbin.$ybin.cp.root
   if [ -f "$file" ]
    then

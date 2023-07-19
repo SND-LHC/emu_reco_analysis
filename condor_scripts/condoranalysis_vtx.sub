@@ -1,0 +1,14 @@
+executable = condoranalysis_vtx.sh
+arguments = $(ClusterID) $(ProcId) $(CELL)
+output = output/vtxanalysis.$(ClusterId).$(ProcId).out
+error = error/vtxanalysis.$(ClusterId).$(ProcId).err
+log = log/vtxanalysis.$(ClusterId).log
++JobFlavour = "microcentury"
+request_memory = 10GB
+notification = Never
+requirements = Machine =!= LastRemoteHost
+on_exit_remove          = (ExitBySignal == False) && (ExitCode == 0)
+max_retries             = 3
+queue CELL from seq 0 360 |
+
+

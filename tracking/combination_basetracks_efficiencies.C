@@ -87,7 +87,7 @@ int main() {
   int mink = min_nfilms;
   SetEfficiencyArray();
   double probiteration = 0;
-  for (int i = 0; i < n; ++i) { people.push_back(i); }
+  for (int i = 0; i < n; ++i) { plates.push_back(i); }
   for (int k = mink; k <= n; ++k) {
     cout<<"Starting combinations of "<<k<<" plates over "<<n<<endl;
     go(0, k);countiterations = 0;
