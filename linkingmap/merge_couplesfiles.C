@@ -9,7 +9,7 @@ int couples_loop(TString cpfilename, int ix, int iy);
 void merge_couplesfiles(int platenumber){
  const int brickID = 31;
  //histo file
- TFile *histofile = new TFile(Form("/eos/user/s/snd2na/emu_reco_plots/RUN1/b%0*i/goodcouples/goodcoupleshistos_cells%i.root",6, brickID platenumber),"RECREATE");  
+ TFile *histofile = new TFile(Form("/eos/user/s/snd2na/emu_reco_plots/RUN1/b%0*i/goodcouples/goodcoupleshistos_cells%i.root",6, brickID, platenumber),"RECREATE");  
  //histograms to be stored
  TTimeStamp *tstamp = new TTimeStamp();
 
@@ -45,7 +45,7 @@ for (int ix = 0; ix < nx; ix++){
  for (int iy = 0; iy < ny; iy++){
 
   //first cp check
-  TString firstlinkcpfilename(prepath+TString(Form("%d.%d.firstlinkcp.root",ix,iy)));
+  TString firstlinkcpfilename(prepath+TString(Form("%d.%d.firstlinkcp.root",ix+1,iy+1)));
   TFile *firstcpfile = TFile::Open(firstlinkcpfilename.Data()); 
   if(firstcpfile){
    EdbSegCorr *corr1 = (EdbSegCorr*) firstcpfile->Get("corr1");
@@ -61,7 +61,7 @@ for (int ix = 0; ix < nx; ix++){
    continue;
    }
   //second cp file, looping over couples
-  TString secondlinkcpfilename(prepath+TString(Form("%d.%d.cp.root",ix,iy)));
+  TString secondlinkcpfilename(prepath+TString(Form("%d.%d.cp.root",ix+1,iy+1)));
   int loop_return = couples_loop(secondlinkcpfilename, ix, iy);
   }//end loop y
  }//end loop x
