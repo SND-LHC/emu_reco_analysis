@@ -1,0 +1,9 @@
+executable = condortracking_realign.sh
+arguments = $(ClusterID) $(ProcId) $(CELL)
+output = output/trackingrealign.$(ClusterId).$(ProcId).out
+error = error/trackingrealign.$(ClusterId).$(ProcId).err
+log = log/trackingrealign.$(ClusterId).log
++JobFlavour = "testmatch"
+request_memory = 20GB
+notification = Never
+queue CELL from seq 0 360 |
