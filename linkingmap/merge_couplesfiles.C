@@ -6,9 +6,10 @@ EdbCell2 * emulsioncell;
 
 int couples_loop(TString cpfilename, int ix, int iy);
 
-void merge_couplesfiles(){
+void merge_couplesfiles(int platenumber){
+ const int brickID = 31;
  //histo file
- TFile *histofile = new TFile("goodcoupleshistos_cells15RUN0.root","RECREATE"); 
+ TFile *histofile = new TFile(Form("/eos/user/s/snd2na/emu_reco_plots/RUN1/b%0*i/goodcouples/goodcoupleshistos_cells%i.root",6, brickID, platenumber),"RECREATE");  
  //histograms to be stored
  TTimeStamp *tstamp = new TTimeStamp();
 
@@ -25,7 +26,6 @@ void merge_couplesfiles(){
 
  hxy = new TH2D("hxy","2D position distribution;x[mm];y[mm]",190,0,190,190,0,190);
 
- const int platenumber = 15;
  //same parameters used as input for linking map!
  const int nx = 19;
  const int ny = 19;
@@ -36,10 +36,10 @@ void merge_couplesfiles(){
  emulsioncell = new EdbCell2();
  emulsioncell->InitCell(19,0,190000,19,0,190000,1);
 
- TH1F *hshr1 = new TH1F("hshr1","Shrinkage corrections all cells bot;shr1",60,0.7,1.0);
- TH1F *hshr2 = new TH1F("hshr2","Shrinkage corrections all cells top;shr2",60,0.7,1.0);
+ TH1F *hshr1 = new TH1F("hshr1","Shrinkage corrections all cells bot;shr1",80,0.7,1.5);
+ TH1F *hshr2 = new TH1F("hshr2","Shrinkage corrections all cells top;shr2",80,0.7,1.5);
 
- TString prepath(Form("/eos/experiment/sndlhc/emulsionData/2022/CERN/emu_reco/b000431/p%0*i/431.%i.",3,platenumber,platenumber));
+ TString prepath(Form("/eos/experiment/sndlhc/emulsionData/2022/emureco_Napoli/RUN1/b%0*i/p%0*i/%i.%i.",6,brickID,3,platenumber,brickID, platenumber));
 
 for (int ix = 0; ix < nx; ix++){
  for (int iy = 0; iy < ny; iy++){
