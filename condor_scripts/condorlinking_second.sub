@@ -1,12 +1,12 @@
 executable = condorlinking_second.sh
-arguments = $(ClusterID) $(ProcId) $(CELL)
+arguments = $(ClusterID) $(ProcId) $(CELL) $(from_plate) $(to_plate)
 output = output/secondlinkingcells.$(ClusterId).$(ProcId).out
 error = error/secondlinkingcells.$(ClusterId).$(ProcId).err
 log = log/secondlinkingcells.$(ClusterId).log
-+JobFlavour = "microcentury"
-request_memory = 6GB
++JobFlavour = "workday"
+request_memory = 8GB
 notification = Never
 requirements = Machine =!= LastRemoteHost
 on_exit_remove          = (ExitBySignal == False) && (ExitCode == 0)
 max_retries             = 3
-queue CELL from seq 0 80 |
+queue CELL from seq 0 360 |

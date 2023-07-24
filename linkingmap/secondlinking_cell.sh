@@ -9,14 +9,14 @@ if [[ $# -eq 0 ]] ; then
     return 0
 fi
 
-brickID=44
+brickID=31
 
 
 #finally doing cell by cell linking
 
 var1=$3
-xbin=$((var1 / 9))
-ybin=$((var1 % 9))
+xbin=$((var1 / 19))
+ybin=$((var1 % 19))
 
 #starting from 1 to 19, not 0 to 18
 xname=$((xbin + 1))
@@ -44,5 +44,5 @@ for iplate in $(seq $2 $1)
   rm $platefolder/$brickID.$iplate.$xname.$yname.raw.root
  done
 
-cp b0000$brickID.0.$xname.$yname.link.ps plot_link/b0000$brickID.0.$xname.$yname.link_$1_$2_2.ps
+cp b0000$brickID.0.$xname.$yname.link.ps plot_link/b0000$brickID.0.$xname.$yname.link_$1_$2.ps
 rm b0000$brickID.0.$xname.$yname.link.ps

@@ -3,17 +3,17 @@
 ProcId=$2
 CELL=$3
 
-fromplate=7
-toplate=3
+fromplate=$4
+toplate=$5
 
 echo "Set up SND environment"
-SNDBUILD_DIR=/afs/cern.ch/user/s/snd2cern/public/SNDBUILD/sw
+SNDBUILD_DIR=/afs/cern.ch/work/s/snd2na/public/SNDBuild/sw
 source /cvmfs/sndlhc.cern.ch/SNDLHC-2023/Jan22/setUp.sh
-eval `alienv load -w $SNDBUILD_DIR --no-refresh sndsw/latest-master-release`
-source /afs/cern.ch/user/s/snd2cern/public/fedra/setup_new.sh	
+eval `alienv load -w $SNDBUILD_DIR --no-refresh sndsw/latest`
+source /afs/cern.ch/work/s/snd2na/public/fedra/setup_new.sh	
 
 echo  "go into reconstruction folder "
-cd /eos/experiment/sndlhc/emulsionData/2022/CERN/emu_reco/RUN1/b000044
+cd /eos/experiment/sndlhc/emulsionData/2022/emureco_Napoli/RUN1/b000022
 echo "do first linking for cell "$CELL
 echo "from plate " $fromplate
 echo "to plate " $toplate

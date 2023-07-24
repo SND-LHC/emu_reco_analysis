@@ -1,12 +1,12 @@
 executable = condorlinking_first.sh
-arguments = $(ClusterID) $(ProcId) $(CELL)
+arguments = $(ClusterID) $(ProcId) $(CELL) $(from_plate) $(to_plate)
 output = output/firstlinkingcells.$(ClusterId).$(ProcId).out
-error = error/fistlinkingcells.$(ClusterId).$(ProcId).err
-log = log/linkingcells.$(ClusterId).log
-+JobFlavour = "microcentury"
+error = error/firstlinkingcells.$(ClusterId).$(ProcId).err
+log = log/firstlinkingcells.$(ClusterId).log
++JobFlavour = "workday"
+request_memory = 8GB
 notification = Never
-request_memory = 6GB
 requirements = Machine =!= LastRemoteHost
 on_exit_remove          = (ExitBySignal == False) && (ExitCode == 0)
 max_retries             = 3
-queue CELL from seq 0 80 |
+queue CELL from seq 0 360 |

@@ -1,0 +1,17 @@
+JOB A condorlinking_first.sub
+JOB B condorlinking_first.sub
+JOB C condorlinking_first.sub
+JOB D condorlinking_first.sub
+JOB E condorlinking_first.sub
+
+VARS A from_plate="57" to_plate="47"
+VARS B from_plate="46" to_plate="36"
+VARS C from_plate="35" to_plate="25"
+VARS D from_plate="24" to_plate="14"
+VARS E from_plate="13" to_plate="1"
+
+PARENT A CHILD B
+PARENT B CHILD C
+PARENT C CHILD D
+PARENT D CHILD E
+
