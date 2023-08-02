@@ -1,8 +1,8 @@
 #!/bin/bash
 
-brickID=44
-iplate=10
-minimumsize=10000000
+brickID=41
+iplate=51
+minimumsize=100000 #lower size if couples tree is not stored
 counter=0
 for var in $(seq 0 360)
  do
@@ -19,7 +19,7 @@ for var in $(seq 0 360)
    actualsize=$(wc -c <"$file")
    let counter++
    if [ $actualsize -lt $minimumsize ]; then
-      echo $file is under $minimumsize bytes $var
+      echo $file is under $minimumsize bytes $var with size $actualsize
    fi
   else
    echo $file does not exists $var
