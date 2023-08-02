@@ -18,10 +18,3 @@ echo "starting tracking with realign for cell "$CELL
 source trackingrealign_cell.sh $fromplate $toplate $CELL
 echo "from plate " $fromplate
 echo "to plate " $toplate
-
-
-
-#to avoid crashes put these in sub
-#requirements = Machine =!= LastRemoteHost
-#on_exit_remove          = (ExitBySignal == False) && ((ExitCode == 1) || (ExitCode == 0))
-#max_retries             = 3
