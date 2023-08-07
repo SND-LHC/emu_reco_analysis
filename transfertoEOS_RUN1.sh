@@ -6,5 +6,6 @@
 localdir=/drives/d/SND/RUN1/
 remotedir=/eos/experiment/sndlhc/emulsionData/2022/CERN/SND/RUN1/
 currdate=`date +"%Y%m%d_%s"`
+cryptedfile=/drives/d/snd2cern_pass.gpg
 
-rsync --stats -rlptDvxW ${localdir} snd2cern@lxplus.cern.ch:${remotedir} &> /drives/d/rsync_logs/${currdate}_rsync_cern2eos.log
+gpg -d -q $cryptedfile | sshpass rsync --stats -rlptDvxW ${localdir} snd2cern@lxplus.cern.ch:${remotedir} &> /drives/d/rsync_logs/${currdate}_rsync_cern2eos.log
