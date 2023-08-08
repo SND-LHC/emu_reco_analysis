@@ -276,29 +276,24 @@ def addtrackindex(df, trackfilename):
  
  ntracks = tracktree.GetEntries()
  #initial empty arrays, to be filled with segments from all tracks
- IDall = np.zeros(0,dtype=int)
- PIDall = np.zeros(0,dtype=int)
- TrackIDall = np.zeros(0,dtype=int)
+ nsegtotal = tracktree.Draw(">>lst","s.ePID>=0")
+ print("we have a total of ",nsegtotal," base-tracks associated to volume-tracks")
+ IDall = np.zeros(nsegtotal,dtype=int)
+ PIDall = np.zeros(nsegtotal,dtype=int)
+ TrackIDall = np.zeros(nsegtotal,dtype=int)
 
  print("start loop on {} tracks".format(tracktree.GetEntries()))
+ indexseg_all = 0
  for track in tracktree:
   nseg = track.nseg
   segments = track.s
 
-  #initial arrays, length given by number of segments of this tracks
-  IDarr = np.zeros(nseg,dtype=int)
-  PIDarr = np.zeros(nseg,dtype=int)
-  TrackIDarr = np.zeros(nseg,dtype=int)
-
   #start loop on segments
   for iseg, seg in enumerate(segments):
-   IDarr[iseg] = seg.ID()
-   PIDarr[iseg] = seg.PID()
-   TrackIDarr[iseg] = seg.Track()
-  #concatenate, adding segments for this track to the global arrays
-  IDall = np.concatenate((IDall,IDarr),axis=0)
-  PIDall = np.concatenate((PIDall,PIDarr),axis=0)
-  TrackIDall = np.concatenate((TrackIDall,TrackIDarr),axis=0)
+   IDall[indexseg_all] = seg.ID()
+   PIDall[indexseg_all] = seg.PID()
+   TrackIDall[indexseg_all] = seg.Track()
+   indexseg_all = indexseg_all + 1
 
  labels = ["ID","PID","FEDRATrackID"]
  dftracks = pd.DataFrame({"ID":IDall,"PID":PIDall,"FEDRATrackID":TrackIDall},columns = labels) 
