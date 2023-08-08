@@ -5,4 +5,7 @@ error = error/reco_secondlinkingcells.$(ClusterId).$(ProcId).err
 log = log/reco_secondlinkingcells.$(ClusterId).log
 +JobFlavour = "workday"
 notification = Never
-queue CELL in 18,19
+requirements = Machine =!= LastRemoteHost
+on_exit_remove          = (ExitBySignal == False) && (ExitCode == 0)
+max_retries             = 3
+queue CELL in 18,37,56,75,94,113,132,151,170,189,208,227,246,265,284,303,322,341,360
