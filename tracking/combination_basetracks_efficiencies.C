@@ -99,3 +99,33 @@ int main() {
   return 0;
 }
 
+vector<double> eff_ClopperPears(int foundevents, int totalevents){
+  //using Clopper Pearson confidence limits, more reliable and recommended by Lista and PDG
+  vector<double> efficiency; //value, lower limit, upper limit
+
+  efficiency.push_back((double) foundevents/totalevents);
+
+  double conflevel = 0.683; //default, 1 sigma
+
+  //computing lower and upper limits
+  double efflow = TEfficiency::ClopperPearson(totalevents,foundevents,conflevel,false);
+  efficiency.push_back(efflow);
+  double effhigh = TEfficiency::ClopperPearson(totalevents,foundevents,conflevel,true);
+  efficiency.push_back(effhigh);
+  return efficiency;
+}
+
+void compute_efferrors(){
+  const int ntracks_total = 658220 + 658568 + 610817 + 633040; //tracks with nseg>=18 in the RUN0 sample (sum all 4 quarters);
+
+  const int nefficiencies = 9; //number of samples computed efficiency
+  double eff_list[nefficiencies] = {0.09,0.45,1.90,6.25,15.60,27.72,31.22,16.74,99.98};
+
+  cout<<"Efficiency for ntracks total "<<ntracks_total<<endl;
+  //loopint over values
+  for (int ieff = 0; ieff<nefficiencies;ieff++){
+   vector<double> efficiency = eff_ClopperPears(ntracks_total * eff_list[ieff]/100.,ntracks_total);
+   cout<<"value "<<efficiency[0]<<" limit: ["<<efficiency[1]<<","<<efficiency[2]<<"]"<<endl;
+  }
+
+}
