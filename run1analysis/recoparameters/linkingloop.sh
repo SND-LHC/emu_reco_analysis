@@ -3,7 +3,7 @@
 if [[ $# -eq 0 ]] ; then
     echo 'Script for performing the two required linking steps. Usage is: '
     echo ' '
-    echo 'source linkingloop.sh nfrom_plate nto_plate'
+    echo 'source linkingloop.sh nfrom_plate nto_plate brickID'
     echo ' '
     echo 'just replace nfrom_plate and nto_plate with corresponding numbers'
     return 0
