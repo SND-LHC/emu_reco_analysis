@@ -51,6 +51,11 @@ for (int ix = 0; ix < nx; ix++){
    EdbSegCorr *corr1 = (EdbSegCorr*) firstcpfile->Get("corr1");
    EdbSegCorr *corr2 = (EdbSegCorr*) firstcpfile->Get("corr2");
    
+   if(!(corr1) || !(corr2)){
+    cout<<"missiong corrections, skipping cell  "<<ix<<iy<<endl;
+    continue;
+   }
+   
    hshr1->Fill(corr1->V(5));
    hshr2->Fill(corr2->V(5));
 
@@ -130,6 +135,7 @@ int couples_loop(TString cpfilename, int ix, int iy){
  mytree->eCut = Form("eCHI2P<2.0&&s.eW>10&&eN1<=1&&eN2<=1&&s1.eFlag>=0&&s2.eFlag>=0&&TMath::Abs(s.eX-%.0f)<%.0f&&TMath::Abs(s.eY-%.0f)<%.0f"
   ,emulsioncell->X(ix),emulsioncell->Xbin()/2.,emulsioncell->Y(iy),emulsioncell->Ybin()/2.); //best rank couples
  //how many entries above the cut?
+ if (!(mytree->eTree)) return -1; //no TTree in file
  TEventList *lst = mytree->InitCutList();
  if (!lst){ 
   cout<<"We have no entries, quitting!"<<endl;
