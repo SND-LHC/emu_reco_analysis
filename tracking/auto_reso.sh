@@ -1,5 +1,6 @@
-python ~/sndlhc/macros-snd/run0analysis/fabio/linearfittracks.py
-root -l -b -q ~/sndlhc/macros-snd/run0analysis/fabio/residualfit_resolution.C
-root -l -b -q ~/sndlhc/macros-snd/run0analysis/fabio/anglefit.C
-python ~/sndlhc/macros-snd/run0analysis/fabio/print_resolutions.py
+#do all steps together to evaluate resolutions
+python linearfittracks.py
+root -l -b -q residualfit_resolution.C
+root -l -b -q anglefit.C
+python print_resolutions.py
 
