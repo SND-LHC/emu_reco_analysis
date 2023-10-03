@@ -14,7 +14,7 @@ int FindMostCommonEvent(EdbTrackP *track);
 void drawEDAvertex(bool newversion = true, TString vertexfilename= "vertextree.root"){
  using namespace VERTEX_PAR;
  const int nvertices = 1;
- int vertexlist[nvertices] = {1866};
+ int vertexlist[nvertices] = {44951};
  //int vertexcolors[nvertices] = {kRed,kRed,kRed,kRed};
  //int vertexlist[nvertices] = {260, 273, 280, 393};
  int vertexcolors[nvertices] = {kRed};
@@ -102,23 +102,27 @@ void drawEDAvertices(bool newversion = true, TString vertexfilename= "vertextree
  vertexrec->eQualityMode=QualityMode;
 
  EdbVertex *vertex = 0;
- const int nvertices = vtxtree->GetEntries();
+ TCut vtxcut("1");//my selection
+
+ vtxtree->Draw(">>lst", vtxcut );
+ TEventList* lst = (TEventList*)gDirectory->GetList()->FindObject("lst");
+
+ const int nvertices = lst->GetN();//We need to loop over only the ones who satisfy the cut
  cout<<"Reading number of vertices: "<<nvertices<<endl;
  map<int,EdbTrackP*>emptymap;
 
  if (newversion){
-  dproc->ReadVertexTree(*vertexrec, "vertextree.root", "1",emptymap);
+  dproc->ReadVertexTree(*vertexrec, vertexfilename.Data(), vtxcut);
  }
 
  for (int i = 0; i < nvertices; i++){ //range for loop, C++11
-  int vID = i;
 
   if (newversion){
-    vertex = (EdbVertex*) ((TObjArray*)(ali->eVTX)) ->At(vID);
+    vertex = (EdbVertex*) ((TObjArray*)(ali->eVTX)) ->At(i);
   } 
   else{ 
     vertexrec = (EdbVertexRec*) inputfile->Get("EdbVertexRec");
-    vertex = (EdbVertex*) vertexrec->eVTX->At(vID);
+    vertex = (EdbVertex*) vertexrec->eVTX->At(i);
   }
   if(applycut){
    if (vertex->N() > 10) drawnvertices->Add(vertex);
