@@ -6,8 +6,9 @@ TFile * outputfile;
 int couples_loop(TString cpfilename, int ix, int iy);
 
 void merge_couplestrees(int platenumber){
+ const int brickID = 31;
  //histo file
- outputfile = new TFile(Form("/eos/experiment/sndlhc/emulsionData/2022/CERN/emu_reco/RUN1/b000041/p%0*i/41.%i.0.0_merged.cp.root",3,platenumber, platenumber),"RECREATE"); 
+ outputfile = new TFile(Form("/eos/experiment/sndlhc/emulsionData/2022/CERN/emu_reco/RUN1/b%0*i/p%0*i/%i.%i.0.0_merged.cp.root", 6, brickID, 3, platenumber, brickID, platenumber),"RECREATE"); 
  //histograms to be stored
  TTimeStamp *tstamp = new TTimeStamp();
 
@@ -15,19 +16,19 @@ void merge_couplestrees(int platenumber){
 
  //const int platenumber = 2; //now as input option of the script
  //same parameters used as input for linking map!
- const int nx = 19;
- const int ny = 19;
- const float xmin = 0.;
- const float xmax = 190000.;
- const float ymin = 0.;
- const float ymax = 190000.;
+ const int nx = 18;
+ const int ny = 18;
+ const float xmin = 5000.;
+ const float xmax = 185000.;
+ const float ymin = 5000.;
+ const float ymax = 185000.;
  emulsioncell = new EdbCell2();
  emulsioncell->InitCell(nx,xmin,xmax,ny,ymin,ymax,1);
 
- TString prepath(Form("/eos/experiment/sndlhc/emulsionData/2022/CERN/emu_reco/RUN1/b000041/p%0*i/41.%i.",3,platenumber,platenumber));
+ TString prepath(Form("/eos/experiment/sndlhc/emulsionData/2022/CERN/emu_reco/RUN1/b%0*i/p%0*i/41.%i.",6, brickID, 3 , platenumber, platenumber));
 
-for (int ix = 0; ix < nx; ix++){
- for (int iy = 0; iy < ny; iy++){
+for (int ix = 8; ix < 10; ix++){
+ for (int iy = 8; iy < 10; iy++){
 
   //second cp file, looping over couples
   TString secondlinkcpfilename(prepath+TString(Form("%d.%d.cp.root",ix+1,iy+1))); //name starts 1 more now
