@@ -1,4 +1,4 @@
-executable = doallalign.sh
+executable = dolocalalign.sh
 arguments = $(ClusterID) $(ProcId) $(from_plate) $(to_plate)
 output = output/align.$(ClusterId).$(ProcId).out
 error = error/align.$(ClusterId).$(ProcId).err

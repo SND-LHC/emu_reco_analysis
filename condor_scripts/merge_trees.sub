@@ -1,0 +1,11 @@
+executable = merge_trees.sh
+arguments = $(ClusterID) $(ProcId) $(PLATENUMBER) $(from_plate) $(to_plate)
+output = output/mergetrees.$(ClusterId).$(ProcId).out
+error = error/mergetrees.$(ClusterId).$(ProcId).err
+log = log/mergetree.$(ClusterId).log
++JobFlavour = "microcentury"
+notification = Never
+requirements = Machine =!= LastRemoteHost
+on_exit_remove          = (ExitBySignal == False) && ((ExitCode == 1) || (ExitCode == 0))
+max_retries             = 3
+queue PLATENUMBER from seq to_plate from_plate |
