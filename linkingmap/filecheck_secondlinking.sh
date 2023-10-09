@@ -1,29 +1,29 @@
 #!/bin/bash
 
-brickID=41
-iplate=51
+brickID=44
 minimumsize=20000000
-counter=0
-for var in $(seq 0 323)
+for iplate in $(seq $2 $1)
  do
-  xbin=$((var / 19))
-  ybin=$((var % 19))
-  #starting from 1 to 19, not 0 to 18
-  xname=$((xbin + 1))
-  yname=$((ybin + 1))
-  platefolder="$(printf "p%0*d" 3 $iplate)"
-  file=$platefolder/$brickID.$iplate.$xname.$yname.cp.root
-  #file=p00$iplate/$brickID.$iplate.$xbin.$ybin.cp.root
-  if [ -f "$file" ]
-   then
-   actualsize=$(wc -c <"$file")
-   let counter++
-   if [ $actualsize -lt $minimumsize ]; then
-      echo $file is under $minimumsize bytes $var with bytes $actualsize
+ counter=0
+ for var in $(seq 0 323)
+  do
+   xbin=$((var / 18))
+   ybin=$((var % 18))
+   #starting from 1 to 19
+   xname=$((xbin + 1))
+   yname=$((ybin + 1))
+   platefolder="$(printf "p%0*d" 3 $iplate)"
+   file=$platefolder/$brickID.$iplate.$xname.$yname.cp.root
+   if [ -f "$file" ]
+    then
+    actualsize=$(wc -c <"$file")
+    let counter++
+    if [ $actualsize -lt $minimumsize ]; then
+       echo $file is under $minimumsize bytes, it has $actualsize bytes $var
+    fi
+   else
+    echo $var
    fi
-  else
-   echo $var
-  fi
- done
-echo $counter
-
+  done
+ echo $iplate total $counter
+done

@@ -1,29 +1,29 @@
 #!/bin/bash
 
-brickID=41
-iplate=51
-minimumsize=100000 #lower size if couples tree is not stored
-counter=0
-for var in $(seq 0 323)
+brickID=44
+minimumsize=100000
+for iplate in $(seq $2 $1)
  do
-  xbin=$((var / 18))
-  ybin=$((var % 18))
-  #starting from 1 to 19, not 0 to 18
-  xname=$((xbin + 1))
-  yname=$((ybin + 1))
-  platefolder="$(printf "p%0*d" 3 $iplate)"
-  file=$platefolder/$brickID.$iplate.$xname.$yname.firstlinkcp.root
-  #file=p00$iplate/$brickID.$iplate.$xbin.$ybin.cp.root
-  if [ -f "$file" ]
-   then
-   actualsize=$(wc -c <"$file")
-   let counter++
-   if [ $actualsize -lt $minimumsize ]; then
-      echo $file is under $minimumsize bytes $var with size $actualsize
+ counter=0
+ for var in $(seq 0 323)
+  do
+   xbin=$((var / 18))
+   ybin=$((var % 18))
+   #starting from 1 to 19
+   xname=$((xbin + 1))
+   yname=$((ybin + 1))
+   platefolder="$(printf "p%0*d" 3 $iplate)"
+   file=$platefolder/$brickID.$iplate.$xname.$yname.firstlinkcp.root
+   if [ -f "$file" ]
+    then
+    actualsize=$(wc -c <"$file")
+    let counter++
+    if [ $actualsize -lt $minimumsize ]; then
+       echo $file is under $minimumsize bytes, it has $actualsize bytes $var
+    fi
+   else
+    echo $var
    fi
-  else
-   echo $var
-  fi
- done
-echo $counter
-
+  done
+ echo $iplate total $counter
+done
