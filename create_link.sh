@@ -18,6 +18,6 @@ for iplate in $(seq $2 $1)
 
   mkdir $RECODATAPATH/$PLATEFOLDER
   ln -s $RAWDATAPATH/$RAWPLATEFOLDER/tracks.raw.root $RECODATAPATH/$PLATEFOLDER/$BRICKID.$iplate.0.0.raw.root
-  echo created link of $PLATEFOLDER to folder $RAWDATAPATH/$RAWPLATEFOLDER
+  echo created link $PLATEFOLDER to folder $RAWDATAPATH/$RAWPLATEFOLDER
   
 done

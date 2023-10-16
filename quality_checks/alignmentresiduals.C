@@ -6,8 +6,8 @@ void alignmentresiduals(int fromplate = 33, bool storetree = false){
  cout<<"check alignment from plate "<<fromplate<<"to plate "<<toplate<<endl;
  //accessing file
  EdbCouplesTree *aligncouples = new EdbCouplesTree();
- aligncouples->InitCouplesTree("couples",Form("/eos/experiment/sndlhc/emulsionData/2022/CERN/emu_reco/RUN1/b000044/AFF/44.%i.0.0_44.%i.0.0.al.root",fromplate,toplate),"READ");
- TFile *inputfile = TFile::Open(Form("/eos/experiment/sndlhc/emulsionData/2022/CERN/emu_reco/RUN1/b000044/AFF/44.%i.0.0_44.%i.0.0.al.root",fromplate,toplate),"READ");
+ aligncouples->InitCouplesTree("couples",Form("/eos/experiment/sndlhc/emulsionData/2022/emureco_Napoli/RUN3/b000044/AFF/44.%i.0.0_44.%i.0.0.al.root",fromplate,toplate),"READ");
+ TFile *inputfile = TFile::Open(Form("/eos/experiment/sndlhc/emulsionData/2022/emureco_Napoli/RUN3/b000044/AFF/44.%i.0.0_44.%i.0.0.al.root",fromplate,toplate),"READ");
 
  TFile *histofile = new TFile(Form("histo_align_%i_%i.root",fromplate,toplate),"RECREATE");
  TNtuple *restree = new TNtuple("restree","Tree of residuals","icouple:dx:dy:dtx:dty");

@@ -4,6 +4,6 @@ output = output/trackingrealign.$(ClusterId).$(ProcId).out
 error = error/trackingrealign.$(ClusterId).$(ProcId).err
 log = log/trackingrealign.$(ClusterId).log
 +JobFlavour = "testmatch"
-request_memory = 20GB
+request_memory = 24GB
 notification = Never
 queue CELL from seq 0 323 |
