@@ -5,7 +5,7 @@ PLATENUMBER=$3
 
 echo "Set up SND environment"
 SNDBUILD_DIR=/afs/cern.ch/user/s/snd2cern/public/SNDBUILD/sw
-source /cvmfs/sndlhc.cern.ch/SNDLHC-2023/Jan22/setUp.sh
+source /cvmfs/sndlhc.cern.ch/SNDLHC-2023/Aug30/setUp.sh
 eval `alienv load -w $SNDBUILD_DIR --no-refresh sndsw/latest-master-release`
 source /afs/cern.ch/user/s/snd2cern/public/fedra/setup_new.sh	
 
