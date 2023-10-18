@@ -2,13 +2,13 @@ EdbPVRec     *gAli=0;
 using namespace ROOT;
 void efficiency_study(){ //efficiency estimation, as used in OPERA paper
 
- const int nsegmin = 12; //18 in RUN0
+ const int nsegmin = 35; //18 in RUN0, 12 in RUN1 test sample
  cout<<"requring at least "<<nsegmin<< " segments "<<endl;
  //TCut trcut = "t.eFlag>=0  &&t.eProb>0.01";
  TCut trcut = Form("t.eFlag>=0 &&t.eProb>0.01&&nseg >= %d",nsegmin);
- const int nfilms = 25;
- const int firstfilm = 15;
- const int lastfilm = 39; 
+ const int nfilms = 57;
+ const int firstfilm = 1;
+ const int lastfilm = 57; 
 
  cout<<" over nfilms "<<nfilms<<" from "<<firstfilm<<" to "<<lastfilm<<endl;
 

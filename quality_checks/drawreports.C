@@ -2,7 +2,7 @@
 //in the b000001 folder, there should be already a folder called 
 //plots with subfolders: thicknesses, link_reports, al_reports
 //TString: class which allows path concatenation. Access the char* object with Data()
-const int brick = 31; //3 with large angles
+const int brick = 43; //3 with large angles
 //const int firstplate = 1;
 //const int lastplate = 1;
 
