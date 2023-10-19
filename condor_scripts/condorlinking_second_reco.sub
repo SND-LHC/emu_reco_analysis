@@ -1,3 +1,4 @@
+#usage: condor_submit from_plate="10" to_plate="1" condorlinking_second.sub
 executable = condorlinking_second.sh
 arguments = $(ClusterID) $(ProcId) $(CELL)
 output = output/reco_secondlinkingcells.$(ClusterId).$(ProcId).out

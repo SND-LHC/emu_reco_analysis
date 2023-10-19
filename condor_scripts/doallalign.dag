@@ -1,0 +1,14 @@
+JOB A doallalign.sub
+JOB B doallalign.sub
+JOB C doallalign.sub
+JOB D doallalign.sub
+
+VARS A from_plate="57" to_plate="52"
+VARS B from_plate="52" to_plate="47"
+VARS C from_plate="47" to_plate="42"
+VARS D from_plate="42" to_plate="37"
+
+PARENT A CHILD B
+PARENT B CHILD C
+PARENT C CHILD D
+
