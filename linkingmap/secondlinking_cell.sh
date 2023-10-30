@@ -42,6 +42,7 @@ for iplate in $(seq $2 $1)
  do
   platefolder="$(printf "p%0*d" 3 $iplate)"
   rm $platefolder/$brickID.$iplate.$xname.$yname.raw.root
+  rm $platefolder/$brickID.$iplate.$xname.$yname.par
  done
 
 cp b0000$brickID.0.$xname.$yname.link.ps plot_link/b0000$brickID.0.$xname.$yname.link_$1_$2.ps
