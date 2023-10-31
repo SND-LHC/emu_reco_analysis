@@ -1,6 +1,6 @@
 #usage: condor_submit from_plate="10" to_plate="1" condorlinking_second.sub
 executable = condorlinking_second.sh
-arguments = $(ClusterID) $(ProcId) $(CELL)
+arguments = $(ClusterID) $(ProcId) $(CELL) $(from_plate) $(to_plate)
 output = output/secondlinkingcells.$(ClusterId).$(ProcId).out
 error = error/secondlinkingcells.$(ClusterId).$(ProcId).err
 log = log/secondlinkingcells.$(ClusterId).log
