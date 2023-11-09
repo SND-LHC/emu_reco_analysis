@@ -1,12 +1,13 @@
+#usage: condor_submit from_plate="10" to_plate="1" condorlinking_second.sub
 executable = condorlinking_second.sh
 arguments = $(ClusterID) $(ProcId) $(CELL) $(from_plate) $(to_plate)
 output = output/secondlinkingcells.$(ClusterId).$(ProcId).out
 error = error/secondlinkingcells.$(ClusterId).$(ProcId).err
 log = log/secondlinkingcells.$(ClusterId).log
-+JobFlavour = "workday"
-request_memory = 8GB
++JobFlavour = "microcentury"
+request_memory = 4GB
 notification = Never
 requirements = Machine =!= LastRemoteHost
-on_exit_remove          = (ExitBySignal == False) && (ExitCode == 0)
+on_exit_remove          = (ExitBySignal == False) && ((ExitCode == 1) || (ExitCode == 0))
 max_retries             = 3
-queue CELL from seq 0 360 |
+queue CELL from seq 0 323 |

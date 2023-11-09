@@ -14,8 +14,4 @@ cd /eos/experiment/sndlhc/emulsionData/2022/CERN/emu_reco/RUN1/b000044/
 
 echo "do alignment"
 
-source firstalign.sh $FROMPLATE $TOPLATE
-
-source secondalign.sh $FROMPLATE $TOPLATE
-
 source localalign.sh $FROMPLATE $TOPLATE

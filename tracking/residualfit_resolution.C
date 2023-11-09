@@ -35,8 +35,8 @@ void residualfit_resolution()
   //RooRealVar slope("slope", "slope",20,-10,10);
   //RooPolynomial polynom("polynom","Pol1",dxr,RooArgList(slope));
 
-  RooRealVar yield_x("yield_x", "signal yield", 50000, 0, 500000);
-  RooRealVar yieldbg_x("yieldbg_x", "background yield", 1000, 0, 100000);
+  RooRealVar yield_x("yield_x", "signal yield", 500000, 0, 5000000);
+  RooRealVar yieldbg_x("yieldbg_x", "background yield", 10000, 0, 1000000);
   //RooRealVar b_x("b_x", "background yield", 100, 0, 200);
   RooAddPdf sum_x("sum_x","Total distribution",RooArgList(gauss_x,gaussbg_x),RooArgList(yield_x,yieldbg_x));
 

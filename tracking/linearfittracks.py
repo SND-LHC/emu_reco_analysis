@@ -1,14 +1,15 @@
+
 '''reading tracks, estimating resolution from a linear fit'''
 import ROOT as r
 import fedrarootlogon
 import progressbar #for bars in loops
 
-minnseg = 18 # if 10 plates
+minnseg = 24 # if 10 plates
 store_every_ntracks = 1
 r.gStyle.SetOptFit(111)
 
 #tracksfile = r.TFile.Open("b000001.0.0.0_first5plates.trk.root") #first 5 plates of W1 B1
-tracksfile = r.TFile.Open("b000431.0.0.0.trk.root") # last 10 plates of W1 B1
+tracksfile = r.TFile.Open("linked_tracks.root") # last 10 plates of W1 B1
 #tracksfile = r.TFile.Open("b000011.0.0.0.trk.root") #last 10 plates of W1 B1 (1 cm2)
 trackstree = tracksfile.Get("tracks")
 #defining graphs
@@ -35,7 +36,7 @@ bar = progressbar.ProgressBar(maxval=ntracks, \
 bar.start()
 
 outputfile = r.TFile("checktrackslinearfits.root","RECREATE")
-restree = r.TNtuple("restree","Tree of residuals","itrack:dx:dy:dtx:dty")
+restree = r.TNtuple("restree","Tree of residuals","itrack:dx:dy:dtx:dty:chi2fzx:chi2fzy")
 for itrack in range(ntracks):
  trackstree.GetEntry(itrack)
  #condition over track length
@@ -46,7 +47,6 @@ for itrack in range(ntracks):
  #looping over track segments
  ipoint = 0
  for seg in segments:
-
   varx = seg.COV()[0,0]
   vary = seg.COV()[1,1]
 
@@ -77,6 +77,7 @@ for itrack in range(ntracks):
  ty_fitted = fzy.GetParameter(1)
  ipoint = 0
  for seg in segments:
+  #if(fzx.GetChisquare()<50 and fzy.GetChisquare()<50):
   #comparing angles
   restx = tx_fitted - seg.TX()
   resty = ty_fitted - seg.TY()
@@ -94,7 +95,7 @@ for itrack in range(ntracks):
   hresy.Fill(resy)
   
   #filling entries for later analysis
-  restree.Fill(itrack,resx,resy,restx,resty)
+  restree.Fill(itrack,resx,resy,restx,resty,fzx.GetChisquare(), fzy.GetChisquare())
   #empty graphs
   gzx.RemovePoint(ipoint)
   gzy.RemovePoint(ipoint)

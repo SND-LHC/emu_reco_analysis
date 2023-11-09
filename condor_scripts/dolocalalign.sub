@@ -1,5 +1,5 @@
-#usage: condor_submit from_plate="5" to_plate="1" doallalign.sub
-executable = doallalign.sh
+#usage: condor_submit from_plate="5" to_plate="1" dolocalalign.sub
+executable = dolocalalign.sh
 arguments = $(ClusterID) $(ProcId) $(from_plate) $(to_plate)
 output = output/align.$(ClusterId).$(ProcId).out
 error = error/align.$(ClusterId).$(ProcId).err

@@ -1,0 +1,11 @@
+executable = merge_histos.sh
+arguments = $(ClusterID) $(ProcId) $(PLATENUMBER) $(from_plate) $(to_plate)
+output = output/mergehistos.$(ClusterId).$(ProcId).out
+error = error/mergehistos.$(ClusterId).$(ProcId).err
+log = log/mergehistos.$(ClusterId).log
++JobFlavour = "microcentury"
+notification = Never
+requirements = Machine =!= LastRemoteHost
+on_exit_remove          = (ExitBySignal == False) && ((ExitCode == 1) || (ExitCode == 0))
+max_retries             = 3
+queue PLATENUMBER from seq to_plate from_plate |

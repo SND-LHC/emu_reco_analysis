@@ -14,10 +14,10 @@ brickID=31
 #finally doing cell by cell linking
 
 var1=$3
-xbin=$((var1 / 19))
-ybin=$((var1 % 19))
+xbin=$((var1 / 18))
+ybin=$((var1 % 18))
 
-#starting from 1 to 19, not 0 to 18
+#starting from 1 to 18, not 0 to 17
 xname=$((xbin + 1))
 yname=$((ybin + 1))
 

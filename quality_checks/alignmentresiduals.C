@@ -1,16 +1,30 @@
 //REDRAWING ALIGNMENT RESIDUALS (RE-CREATED 14 October 2022)
 
-void alignmentresiduals(){
+void alignmentresiduals(int fromplate = 33, bool storetree = false){
+
+ int toplate = fromplate - 1;
+ cout<<"check alignment from plate "<<fromplate<<"to plate "<<toplate<<endl;
  //accessing file
  EdbCouplesTree *aligncouples = new EdbCouplesTree();
- aligncouples->InitCouplesTree("couples","/eos/experiment/sndlhc/emulsionData/2022/emureco_Napoli/RUN2/b000131/AFF/131.49.0.0_131.48.0.0.al.root","READ");
- TFile *inputfile = TFile::Open("/eos/experiment/sndlhc/emulsionData/2022/emureco_Napoli/RUN2/b000131/AFF/131.49.0.0_131.48.0.0.al.root","READ");
+ aligncouples->InitCouplesTree("couples",Form("/eos/experiment/sndlhc/emulsionData/2022/emureco_Napoli/RUN3/b000044/AFF/44.%i.0.0_44.%i.0.0.al.root",fromplate,toplate),"READ");
+ TFile *inputfile = TFile::Open(Form("/eos/experiment/sndlhc/emulsionData/2022/emureco_Napoli/RUN3/b000044/AFF/44.%i.0.0_44.%i.0.0.al.root",fromplate,toplate),"READ");
+
+ TFile *histofile = new TFile(Form("histo_align_%i_%i.root",fromplate,toplate),"RECREATE");
+ TNtuple *restree = new TNtuple("restree","Tree of residuals","icouple:dx:dy:dtx:dty");
+ //aligncouples->InitCouplesTree("couples","/home/scanner/sndlhc/RUN1/b000024/plots/24.307.0.0_24.306.0.0_testallarealowparameters.al.root","READ");
+ //TFile *inputfile = TFile::Open("/home/scanner/sndlhc/RUN1/b000024/plots/24.307.0.0_24.306.0.0_testallarealowparameters.al.root","READ");
 
  EdbLayer *la1 = (EdbLayer*) inputfile->Get("corr_layer1"); //corrlayer2 is identical, but let us put it anyway
  EdbLayer *la2 = (EdbLayer*) inputfile->Get("corr_layer2");
  TH2D *hdxy = new TH2D("hdxy","Position residuals;dx[#mum];dy[#mum]",20,-10,10,20,-10,10);
  TH2D *hdxy_original = new TH2D("hdxy_original","Position residuals;dx[#mum];dy[#mum]",9,-120,120,9,-120,120);
- TH2D *hdtxty = new TH2D("hdtxty","Angular residuals;dtx[mrad];dty[mrad]",20,-0.01,0.01,20,-0.01,0.01);
+
+ TH2D *hdtxty = new TH2D("hdtxty","Angular residuals 1D dtx;dtx",20,-0.01,0.01,20,-0.01,0.01);
+
+ TH1D *hdx = new TH1D("hdx","Position residuals 1D dx;dx[#mum]",40,-10.,10.);
+ TH1D *hdy = new TH1D("hdy","Position residuals 1D dy;dy[#mum]",40,-10.,10.);
+ TH1D *hdtx = new TH1D("hdtx","Angular residuals 1D dtx;dtx",40,-0.01,0.01);
+ TH1D *hdty = new TH1D("hdty","Angular residuals 1D dty;dty",40,-0.01,0.01);
  //with respect to coordinate
  //TH2D *hdx_x = new TH2D("hdx_x","Position residuals;x2[#mum];dx[#mum]",100,91000,101000,20,-10,10);
  //TH2D *hdx_y = new TH2D("hdx_y","Position residuals;y2[#mum];dx[#mum]",100,91000,101000,20,-10,10);
@@ -32,10 +46,10 @@ void alignmentresiduals(){
  TH2D *hdty_tx = new TH2D("hdty_tx","dty vs tx;TX2;dty",200,-0.1,0.1,20,-0.01,0.01);
  TH2D *hdty_ty = new TH2D("hdty_ty","dty vs ty;TY2;dty",200,-0.1,0.1,20,-0.01,0.01);
 
- TProfile *hdtx_x = new TProfile("hdtx_x","dtx vs x;x2[#mum];dtx",1000,0,190000,-1,1);
- TProfile *hdtx_y = new TProfile("hdtx_y","dtx vs y;y2[#mum];dtx",1000,0,190000,-1,1);
- TProfile *hdty_x = new TProfile("hdty_x","dty vs x;x2[#mum];dty",1000,0,190000,-1,1);
- TProfile *hdty_y = new TProfile("hdty_y","dty vs y;y2[#mum];dty",1000,0,190000,-1,1);
+ TProfile *hdtx_x = new TProfile("hdtx_x","dtx vs x;x2[#mum];dtx",100,91000,101000,-1,1);
+ TProfile *hdtx_y = new TProfile("hdtx_y","dtx vs y;y2[#mum];dtx",100,91000,101000,-1,1);
+ TProfile *hdty_x = new TProfile("hdty_x","dty vs x;x2[#mum];dty",100,91000,101000,-1,1);
+ TProfile *hdty_y = new TProfile("hdty_y","dty vs y;y2[#mum];dty",100,91000,101000,-1,1);
  //looping over couples
  int ncouples = aligncouples->eTree->GetEntries();
  for (int i= 0; i < ncouples; i++){
@@ -51,10 +65,17 @@ void alignmentresiduals(){
 
   hdxy->Fill(dx,dy);
   hdxy_original->Fill(dx,dy);
-  if (s1->Chi2()<0.4 && s2->Chi2()<0.4)
-  {
-    hdtxty->Fill(dtx,dty);
-  }
+  hdtxty->Fill(dtx,dty);
+
+  //filling with 1D positions;
+  hdx->Fill(dx);
+  hdy->Fill(dy);
+  hdtx->Fill(dtx);
+  hdty->Fill(dty);
+
+  restree->Fill(i,dx,dy,dtx,dty);
+
+
   //filling with positions
   hdx_x->Fill(la2->X(*s2),dx);
   hdx_y->Fill(la2->Y(*s2),dx);
@@ -76,9 +97,7 @@ void alignmentresiduals(){
  } 
  //drawing histogram
  TCanvas *cxy = new TCanvas("cxy","xy residual",800,800);
- hdxy->Draw("COLZ"); 
- TCanvas *ctxty = new TCanvas("ctxty","txty residual",800,800);
- hdtxty->Draw("COLZ");
+ hdxy->Draw("COLZ");
 
  TCanvas *cxy1D = new TCanvas("cxy1D","1D distributions");
 
@@ -89,11 +108,11 @@ void alignmentresiduals(){
  fdx->SetParameter(3,20);
  fdx->SetParNames("p0","N","mean","sigma");
 
- cxy1D->Divide(1,2);
- cxy1D->cd(1);
- TH1D *hdx = hdxy->ProjectionX();
- hdx->Draw();
- hdx->Fit("gaus");
+ //cxy1D->Divide(1,2);
+ //cxy1D->cd(1);
+ //TH1D *hdx = hdxy->ProjectionX();
+ //hdx->Draw();
+ //hdx->Fit("gaus");
 
  TF1 *fdy = new TF1("fdy","pol0(0)+gaus(1)",-20,20);
  fdy->SetParameter(0,7000);
@@ -102,10 +121,10 @@ void alignmentresiduals(){
  fdy->SetParameter(3,20);
  fdy->SetParNames("p0","N","mean","sigma");
 
- cxy1D->cd(2);
- TH1D *hdy = hdxy->ProjectionY();
- hdy->Draw();
- hdy->Fit("gaus");
+ //cxy1D->cd(2);
+ //TH1D *hdy = hdxy->ProjectionY();
+ //hdy->Draw();
+ //hdy->Fit("gaus");
 
  TCanvas *cdxymaps = new TCanvas();
  cdxymaps->Divide(2,2);
@@ -152,4 +171,33 @@ void alignmentresiduals(){
  hdty_tx->Draw("COLZ");
  cdtxty_angularmaps->cd(3);
  hdty_ty->Draw("COLZ");
+
+ TCanvas *cdxdy1D = new TCanvas();
+ cdxdy1D->Divide(1,2);
+ cdxdy1D->cd(1);
+ hdx->Draw();
+ hdx->Fit("gaus","","",-4,4);
+ cdxdy1D->cd(2);
+ hdy->Fit("gaus","","",-4,4);
+ hdy->Draw();
+ 
+ TCanvas *cdtxdty1D = new TCanvas();
+ cdtxdty1D->Divide(1,2);
+ cdtxdty1D->cd(1);
+ hdtx->Draw();
+ hdtx->Fit("gaus","","",-0.006,0.006);
+ cdtxdty1D->cd(2);
+ hdty->Draw();
+ hdty->Fit("gaus","","",-0.006,0.006);
+
+ histofile->cd();
+ hdx->Write();
+ hdy->Write();
+ hdtx->Write();
+ hdty->Write();
+ 
+ hdxy->Write();
+ hdtxty->Write();
+
+ if (storetree) restree->Write();
 }

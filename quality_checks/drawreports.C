@@ -2,12 +2,12 @@
 //in the b000001 folder, there should be already a folder called 
 //plots with subfolders: thicknesses, link_reports, al_reports
 //TString: class which allows path concatenation. Access the char* object with Data()
-const int brick = 44; //3 with large angles
+const int brick = 43; //3 with large angles
 //const int firstplate = 1;
 //const int lastplate = 1;
 
-TString path = TString("/eos/experiment/sndlhc/emulsionData/2022/CERN/emu_reco/RUN1");
-TString plotpath = TString("/eos/user/s/snd2cern/emu_reco_plots/RUN1");
+TString path = TString("/eos/experiment/sndlhc/emulsionData/2022/emureco_Napoli/RUN2/");
+TString plotpath = TString("/eos/user/s/snd2na/emu_reco_plots/RUN2");
 
 
 //TString run = "GSI5";

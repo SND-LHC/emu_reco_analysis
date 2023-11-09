@@ -1,14 +1,9 @@
 executable = condortracking_realign.sh
-arguments = $(ClusterID) $(ProcId) $(CELL)
+arguments = $(ClusterID) $(ProcId) $(CELL) $(from_plate) $(to_plate)
 output = output/trackingrealign.$(ClusterId).$(ProcId).out
 error = error/trackingrealign.$(ClusterId).$(ProcId).err
 log = log/trackingrealign.$(ClusterId).log
 +JobFlavour = "testmatch"
-request_memory = 30GB
+request_memory = 24GB
 notification = Never
-requirements = Machine =!= LastRemoteHost
-on_exit_remove          = (ExitBySignal == False) && (ExitCode == 0)
-max_retries             = 3
-queue CELL from seq 0 360 |
-
-
+queue CELL from seq 0 323 |
