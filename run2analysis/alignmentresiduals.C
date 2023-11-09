@@ -3,8 +3,8 @@
 void alignmentresiduals(){
  //accessing file
  EdbCouplesTree *aligncouples = new EdbCouplesTree();
- aligncouples->InitCouplesTree("couples","/eos/experiment/sndlhc/emulsionData/2022/emureco_Napoli/RUN2/b000131/AFF/131.49.0.0_131.48.0.0.al.root","READ");
- TFile *inputfile = TFile::Open("/eos/experiment/sndlhc/emulsionData/2022/emureco_Napoli/RUN2/b000131/AFF/131.49.0.0_131.48.0.0.al.root","READ");
+ aligncouples->InitCouplesTree("couples","/home/scanner/sndlhc/RUN2/test_offlinescans/b000024/AFF/24.8.0.0_24.7.0.0.al.root","READ");
+ TFile *inputfile = TFile::Open("/home/scanner/sndlhc/RUN2/test_offlinescans/b000024/AFF/24.8.0.0_24.7.0.0.al.root","READ");
 
  EdbLayer *la1 = (EdbLayer*) inputfile->Get("corr_layer1"); //corrlayer2 is identical, but let us put it anyway
  EdbLayer *la2 = (EdbLayer*) inputfile->Get("corr_layer2");

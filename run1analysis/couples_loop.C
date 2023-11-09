@@ -1,7 +1,7 @@
 void couples_loop(){
 
- const int brickID = 24;
- const int plateID = 2;
+ const int brickID = 21;
+ const int plateID = 9;
 
  TTimeStamp *tstamp = new TTimeStamp();
 

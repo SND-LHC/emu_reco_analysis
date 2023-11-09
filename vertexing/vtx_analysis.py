@@ -2,9 +2,9 @@ import ROOT as r
 import numpy as np
 import fedrarootlogon
 
-pos = [91000, 103000,  88000, 100000,  -32263, 0]
+pos = [90000, 102000,  90000, 102000,  -75236, 0]
 
-vertexfilepath = '/home/scanner/sndlhc/RUN1/b000021/trackfiles/39-15/'
+vertexfilepath = '/home/scanner/sndlhc/RUN1/b000021/trackfiles/57_1/rootfiles'
 vertexFiles = [[],[],[],[]]
 r.gStyle.SetOptStat(1)
 #ntracks and flag
@@ -83,7 +83,7 @@ vertexrec.eUseMom=False
 vertexrec.eUseSegPar=True
 vertexrec.eQualityMode=0
 proc = r.EdbDataProc()
-dproc.ReadVertexTree(vertexrec, vertexfilepath+"/vertextree.root", "1")
+dproc.ReadVertexTree(vertexrec, vertexfilepath+"/vertextree0.root", "1")
 vertices = gAli.eVTX
 for vtx in vertices:
       ntracks = vtx.N()
