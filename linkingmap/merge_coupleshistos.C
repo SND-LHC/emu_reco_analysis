@@ -6,10 +6,9 @@ EdbCell2 * emulsioncell;
 
 int couples_loop(TString cpfilename, int ix, int iy);
 
-void merge_coupleshistos(int platenumber){
- const int brickID = 31;
+void merge_coupleshistos(int brickID, int platenumber){
  //histo file
- TFile *histofile = new TFile(Form("/eos/user/s/snd2na/emu_reco_plots/RUN1/b%0*i/goodcouples/goodcoupleshistos_cells%i.root",6, brickID, platenumber),"RECREATE");  
+ TFile *histofile = new TFile(Form("/eos/user/s/snd2cern/emu_reco_plots/RUN1/b%0*i/goodcouples/goodcoupleshistos_cells%i.root",6, brickID, platenumber),"RECREATE");  
  //histograms to be stored
  TTimeStamp *tstamp = new TTimeStamp();
 
@@ -39,7 +38,7 @@ void merge_coupleshistos(int platenumber){
  TH1F *hshr1 = new TH1F("hshr1","Shrinkage corrections all cells bot;shr1",80,0.7,1.5);
  TH1F *hshr2 = new TH1F("hshr2","Shrinkage corrections all cells top;shr2",80,0.7,1.5);
 
- TString prepath(Form("/eos/experiment/sndlhc/emulsionData/2022/emureco_Napoli/RUN1/b%0*i/p%0*i/%i.%i.",6,brickID,3,platenumber,brickID, platenumber));
+ TString prepath(Form("/eos/experiment/sndlhc/emulsionData/2022/CERN/emu_reco/RUN1/b%0*i/p%0*i/%i.%i.",6,brickID,3,platenumber,brickID, platenumber));
 
 for (int ix = 0; ix < nx; ix++){
  for (int iy = 0; iy < ny; iy++){
@@ -67,6 +66,10 @@ for (int ix = 0; ix < nx; ix++){
    }
   //second cp file, looping over couples
   TString secondlinkcpfilename(prepath+TString(Form("%d.%d.cp.root",ix+1,iy+1)));
+  if (gSystem->AccessPathName(secondlinkcpfilename.Data())){//returns False if file exists, True if it does not (yes, I find it weird too)
+    cout<<"File does not exist:"<<secondlinkcpfilename.Data()<<" moving to next cell"<<endl;
+    continue;
+   }
   int loop_return = couples_loop(secondlinkcpfilename, ix, iy);
   }//end loop y
  }//end loop x
