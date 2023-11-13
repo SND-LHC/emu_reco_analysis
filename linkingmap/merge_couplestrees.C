@@ -5,8 +5,7 @@ TFile * outputfile;
 
 int couples_loop(TString cpfilename, int ix, int iy);
 
-void merge_couplestrees(int platenumber){
- const int brickID = 31;
+void merge_couplestrees(int brickID, int platenumber){
  //histo file
  outputfile = new TFile(Form("/eos/experiment/sndlhc/emulsionData/2022/CERN/emu_reco/RUN1/b%0*i/p%0*i/%i.%i.0.0_merged.cp.root", 6, brickID, 3, platenumber, brickID, platenumber),"RECREATE"); 
  //histograms to be stored
