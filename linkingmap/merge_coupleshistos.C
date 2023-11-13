@@ -6,8 +6,7 @@ EdbCell2 * emulsioncell;
 
 int couples_loop(TString cpfilename, int ix, int iy);
 
-void merge_coupleshistos(int platenumber){
- const int brickID = 31;
+void merge_coupleshistos(int brickID, int platenumber){
  //histo file
  TFile *histofile = new TFile(Form("/eos/user/s/snd2na/emu_reco_plots/RUN1/b%0*i/goodcouples/goodcoupleshistos_cells%i.root",6, brickID, platenumber),"RECREATE");  
  //histograms to be stored
