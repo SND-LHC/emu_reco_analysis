@@ -336,7 +336,7 @@ def retrievetrackinfo(df, trackfilename):
 
   
 
-def addvertexindex(df,vertexfilename):
+def addvertexindex(vertexfilename):
   '''adding vertex index to dataframe. Requires Track Index'''
   vertexfile = r.TFile.Open(vertexfilename)
   vertextree = vertexfile.Get("vtx")
@@ -374,7 +374,5 @@ def addvertexindex(df,vertexfilename):
   VertexSarr = list(VertexS.values())
   VertexEarr = list(VertexE.values())
   dfvertices = pd.DataFrame({"FEDRATrackID":TrackIDarr, "VertexS":VertexSarr, "VertexE":VertexEarr},columns = labels, dtype = int)
-  
-  #dfwithvertices = df.merge(dfvertices,how='left', on = ["TrackID"])
 
   return dfvertices  

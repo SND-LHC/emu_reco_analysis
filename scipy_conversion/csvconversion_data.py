@@ -140,30 +140,24 @@ def builddataframe(brick, path = "..", cutstring = "1", major = 0, minor = 0, ne
 
  return df
 
-def applyconversion(nbrick):
- '''convert couples ROOT files into a csv'''
-
- #df = builddataframe(nbrick,  cutstring = "eCHI2P<2.0&&s.eW>10&&eN1==1&&eN2==1")
- df = builddataframe(nbrick,  cutstring = "eN1==1&&eN2==1")
-
- return df
-
 #the two steps can now be done together, without an intermediate file
 nbrick = int(sys.argv[1])
+major = int(sys.argv[2])
+minor = int(sys.argv[3])
 #starting all conversion steps
-df = applyconversion(nbrick)
+df = builddataframe(nbrick,cutstring="eN1<=1&&eN2<=1&&s1.eFlag>=0&&s2.eFlag>=0",major = major, minor = minor)
 
 lastplate = int(df.name[0:3])
 firstplate = int(df.name[4:7])
 
 df['Plate'] = lastplate - df['PID']
 
-print ("Dataframe ready, now adding tracks")
+print ("Dataframe ready, NOT adding tracks")
 
-import fedra2scipy_utils
+#import fedra2scipy_utils
 
-df = fedra2scipy_utils.addtrackindex(df, sys.argv[2])
-df = df.drop(labels='PID',axis=1)
+#df = fedra2scipy_utils.addtrackindex(df, sys.argv[2]) #for now, do not add tracks!
+#df = df.drop(labels='PID',axis=1)
 
 df.to_csv('brick{}_{}_{}.csv'.format(nbrick,lastplate,firstplate),index=False) #should contain from plate to plate info, so we can get PID info
 
