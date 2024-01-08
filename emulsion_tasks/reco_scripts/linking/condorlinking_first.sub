@@ -1,0 +1,14 @@
+executable = condorlinking_first.sh
+arguments = $(from_plate) $(to_plate) $(CELL) 
+output = output/firstlinkingcells.$(ClusterId).$(ProcId).out
+error = error/fistlinkingcells.$(ClusterId).$(ProcId).err
+log = log/firstlinkingcells.$(ClusterId).log
++JobFlavour = "longlunch"
+request_memory = 4GB
+notification = Never
+requirements = Machine =!= LastRemoteHost
+on_exit_remove          = (ExitBySignal == False) && ((ExitCode == 1) || (ExitCode == 0))
+max_retries             = 3
++AccountingGroup = "group_u_SNDLHC.users"
+requirements = (OpSysAndVer =?= "AlmaLinux9")
+queue CELL from seq 0 323 |

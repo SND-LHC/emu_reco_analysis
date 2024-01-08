@@ -1,0 +1,10 @@
+executable  = check_raw.sh
+arguments   = $(plateID)
+output      = output/onur.$(ClusterId).$(ProcId).out
+error       = error/onur.$(ClusterId).$(ProcId).err
+log         = log/onur.log
++JobFlavour = "longlunch"
++AccountingGroup = "group_u_SNDLHC.users"
+Transfer_output_files = ""
+requirements = (OpSysAndVer =?= "AlmaLinux9")
+queue plateID in 30,31,32,33,34,35,36,37,38

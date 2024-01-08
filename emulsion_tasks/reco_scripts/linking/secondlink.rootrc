@@ -1,0 +1,41 @@
+fedra.link.AFID:                         1
+fedra.link.PixelCorr:                    0 1. 1.
+fedra.link.CheckUpDownOffset:            1
+fedra.link.BinOK:                        6
+fedra.link.NcorrMin:                     100
+fedra.link.DoCorrectShrinkage:           0
+fedra.link.read.InvertSides:             0
+fedra.link.read.HeaderCut:               1
+fedra.link.read.UseDensityAsW:           0
+fedra.link.read.ICUT:                    -1     -500. 500.   -500.   500.    -1.0   1.0      -1.0   1.0       0.  100.
+fedra.link.RemoveDoublets:               1    5. .1   1
+fedra.link.DumpDoubletsTree:             0
+fedra.link.shr.NsigmaEQ:                 7.5
+fedra.link.shr.Shr0:                     0.7
+fedra.link.shr.DShr:                     0.3
+fedra.link.shr.ThetaLimits:              0.  1.
+fedra.link.DoCorrectAngles:              0
+fedra.link.ang.Chi2max:                  1.5
+fedra.link.DoFullLinking:                1
+fedra.link.full.NsigmaEQ:                5.5
+fedra.link.full.DR:                      30
+fedra.link.full.DT:                      0.1
+fedra.link.full.CHI2Pmax:                3
+fedra.link.DoSaveCouples:                1
+fedra.link.Sigma0:                       1 1 0.013 0.013
+fedra.link.PulsRamp0:                    6 9
+fedra.link.PulsRamp04:                   6 9
+fedra.link.Degrad:                       5
+fedra.link.LLfunction:                   0.256336-0.16489*x+2.11098*x*x
+fedra.link.CPRankingAlg:                 0
+fedra.link.map.NX:			 18
+fedra.link.map.NY:			 18
+fedra.link.map.xmin:			 5000
+fedra.link.map.xmax:			 185000
+fedra.link.map.ymin:			 5000
+fedra.link.map.ymax:			 185000
+fedra.link.map.overlapfraction:		 0.25
+emlink.reportfileformat:		 ps
+emlink.outdir:                           ..
+emlink.env:                              link.rootrc
+emlink.EdbDebugLevel:                    1

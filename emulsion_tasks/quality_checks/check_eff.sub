@@ -1,0 +1,9 @@
+executable  = check_eff.sh
+arguments   = $(plateID)
+output      = /afs/cern.ch/work/o/onur/output/onur.$(ClusterId).$(ProcId).out
+error       = /afs/cern.ch/work/o/onur/error/onur.$(ClusterId).$(ProcId).err
+log         = log/onur.log
++JobFlavour = "microcentury"
++AccountingGroup = "group_u_SNDLHC.users"
+Transfer_output_files = ""
+queue plateID seq  /eos/experiment/sndlhc/emulsionData/2022/CERN/emu_reco/RUN1/b000044/trackfiles/rootfiles/57_1/cell_*/b000044*.trk.root
