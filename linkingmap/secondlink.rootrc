@@ -1,5 +1,10 @@
 fedra.link.AFID:                         1
 fedra.link.PixelCorr:                    0 1. 1.
+
+fedra.link.DoImageMatrixCorr:            1
+fedra.link.ImageMatrixCorrSide1:         diff_matrix_top.txt
+fedra.link.ImageMatrixCorrSide2:         diff_matrix_bot.txt
+
 fedra.link.CheckUpDownOffset:            1
 fedra.link.BinOK:                        6
 fedra.link.NcorrMin:                     100
@@ -9,9 +14,9 @@ fedra.link.read.HeaderCut:               1
 fedra.link.read.UseDensityAsW:           0
 fedra.link.read.ICUT:                    -1     -500. 500.   -500.   500.    -1.0   1.0      -1.0   1.0       0.  100.
 fedra.link.RemoveDoublets:               1    5. .1   1
-fedra.link.DumpDoubletsTree:             0
+fedra.link.DumpDoubletsTree:             1
 fedra.link.shr.NsigmaEQ:                 7.5
-fedra.link.shr.Shr0:                     0.7
+fedra.link.shr.Shr0:                     0.9
 fedra.link.shr.DShr:                     0.3
 fedra.link.shr.ThetaLimits:              0.  1.
 fedra.link.DoCorrectAngles:              0
@@ -22,7 +27,7 @@ fedra.link.full.DR:                      30
 fedra.link.full.DT:                      0.1
 fedra.link.full.CHI2Pmax:                3
 fedra.link.DoSaveCouples:                1
-fedra.link.Sigma0:                       1 1 0.013 0.013
+fedra.link.Sigma0:                       1 1 0.007 0.007
 fedra.link.PulsRamp0:                    6 9
 fedra.link.PulsRamp04:                   6 9
 fedra.link.Degrad:                       5
